@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Ecommerce Website - Homepage</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .cart-btn {
+            border: none;
+            display: flex;
+            position: fixed;
+            top: 1em;
+            right: 1em;
+            height: 4em;
+            width: 5em;
+            background-color: rgb(194, 194, 194);
+            border-radius: 1em;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .cart-btn:hover {
+            transform: scale(1.1);
+        }
+        .cart-btn:active {
+            background-color: black;
+            color: white;
+        }
+        .cart-btn span {
+            font-size: 3em;
+        }
+
+        .category-buttons {
+            display: flex;
+            margin: 8em 3em 0 3em;
+            justify-content: space-between;
+        }
+        .category-button {
+            display: flex;
+            position: relative;
+            height: 43em;
+            width: 34em;
+            background-color: rgb(163, 163, 163);
+            border: 0.5em solid black;
+            border-radius: 1em;
+            overflow: hidden;
+        }
+        .category-title {
+            display: flex;
+            position: absolute;
+            top: 2em;
+            left: 0;
+            right: 0;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            height: 3em;
+            align-items: center;
+            padding-left: 1em;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .category-image {
+            display: flex;
+            position: absolute;
+            width: 100%;
+            transition: 0.2s;
+        }
+        .category-image:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body style="background-color: rgb(255, 255, 255);">
+    <button class="cart-btn">
+        <span class="material-symbols-outlined">
+            shopping_cart
+        </span>
+    </button>
+    
+    <div class="category-buttons">
+        <a href="categorypage.html?category=food">
+            <div class="category-button">
+                <img class="category-image" src="categoryFood.png" alt="Food Category"/>
+                <div class="category-title">Food</div>
+            </div>
+        </a>
+        <a href="categorypage.html?category=clothing">
+            <div class="category-button">
+                <img class="category-image" src="categoryClothing.png" alt="Clothing Category"/>
+                <div class="category-title">Clothing</div>
+            </div>
+        </a>
+        <a href="categorypage.html?category=electronics">
+            <div class="category-button">
+                <img
+                    style="height: 100%;"
+                    class="category-image" src="categoryElectronicsImage.png"
+                    alt="Electronics Category"/>
+                <div class="category-title">Electronics</div>
+            </div>
+        </a>
+    </div>
+</body>
+</html>
