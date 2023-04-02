@@ -137,8 +137,9 @@
             document.querySelector('title').innerHTML += category;
 
             itemsContainer.innerHTML = itemsInCategory.map(item => {
+                const onclickUrl = `productpage.html?category=${category}&productId=${item.id}`;
                 return `
-                <a href="#">
+                <a href="${onclickUrl}">
                     <div class="item">
                         <img class="item-image" src="${item.image}" alt="${item.title}"/>
                         <div class="item-info">
