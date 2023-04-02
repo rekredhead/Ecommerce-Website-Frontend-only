@@ -55,7 +55,6 @@
             position: relative;
             height: 20em;
             width: 25.4em;
-            padding: 1em;
             border-radius: 1em;
             overflow: hidden;
             margin-bottom: 1em;
@@ -78,10 +77,15 @@
             width: 75%;
             overflow: hidden;
         }
-        .item > img {
+        .item-image {
             display: flex;
             position: absolute;
             width: 100%;
+            height: 100%;
+            transition: 0.2s;
+        }
+        .item-image:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -135,7 +139,7 @@
                 return `
                 <a href="#">
                     <div class="item">
-                        <img src="${item.image}" alt="${item.title}"/>
+                        <img class="item-image" src="${item.image}" alt="${item.title}"/>
                         <div class="item-info">
                             <div class="item-name">${item.title}</div>
                             <h3 style="color: greenyellow">$${item.price}</h3>
