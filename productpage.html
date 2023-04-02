@@ -5,8 +5,93 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mock Ecommerce Website - </title>
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
 </head>
 <body>
-    
+    <script type="module">
+        import itemsData from "./itemsData.js";
+
+        const getParameters = () => {
+            const rawParameters = window.location.search.substring(1);
+            const parameters = rawParameters.split('&');
+
+            if (parameters.length === 2) {
+                return parameters;
+            } else {
+                alert("Please select only 2 parameters");
+                return null;
+            }
+        }
+
+        const getCategoryAndProductId = () => {
+            const parameters = getParameters();
+            if (parameters === null) return null;
+
+            let categoryAndProductId = {};
+            
+            for (const parameter of parameters) {
+                const keyValueArr = parameter.split('=');
+                const key = keyValueArr[0];
+                const value = keyValueArr[1];
+                
+                if (key === 'category') {
+                    categoryAndProductId[key] = value;
+                } else if (key === 'id') {
+                    categoryAndProductId[key] = parseInt(value);
+                } else {
+                    alert("Please select valid parameters");
+                    return null;
+                }
+            }
+            return categoryAndProductId;
+        }
+
+        const getValidatedCategory = (category) => {
+            if (category in itemsData.category) {
+                return category;
+            } else {
+                alert("Please select a valid category");
+                return null;
+            }
+        }
+
+        const getValidatedProductId = (productCategory, id) => {
+            const itemsInCategory = itemsData.category[productCategory];
+            for (const item of itemsInCategory) {
+                if (id === item.id) {
+                    return id;
+                }
+            }
+
+            alert("Please select a valid product id for this category");
+            return null;
+        }
+
+        const renderHTML = () => {
+            const categoryAndProductId = getCategoryAndProductId();
+            if (categoryAndProductId === null) {
+                history.back();
+                return;
+            }
+
+            const category = getValidatedCategory(categoryAndProductId.category);
+            if (category === null) {
+                history.back();
+                return;
+            }
+
+            const productId = getValidatedProductId(category, categoryAndProductId.id);
+            if (productId === null) {
+                history.back();
+                return;
+            }
+            console.log("Rendered Page");
+        }
+        renderHTML();
+    </script>
 </body>
 </html>
