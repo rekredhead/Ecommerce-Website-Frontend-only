@@ -162,6 +162,9 @@
         const productPriceEl = document.querySelector('.product-price');
         const productDescEl = document.querySelector('.product-desc');
 
+        const addToCartBtn = document.querySelector('.add-to-cart');
+        const buyNowBtn = document.querySelector('.buy-now');
+
         const getParameters = () => {
             const rawParameters = window.location.search.substring(1);
             const parameters = rawParameters.split('&');
@@ -218,27 +221,26 @@
             return null;
         }
 
-        const renderHTML = () => {
+        const getProductData = () => {
             const categoryAndProductId = getCategoryAndProductId();
-            if (categoryAndProductId === null) {
-                history.back();
-                return;
-            }
+            if (categoryAndProductId === null) return null;
 
             const category = getValidatedCategory(categoryAndProductId.category);
-            if (category === null) {
-                history.back();
-                return;
-            }
+            if (category === null) return null;
 
             const productId = getValidatedProductId(category, categoryAndProductId.id);
-            if (productId === null) {
+            if (productId === null) return null;
+
+            const itemsInCategory = itemsData.category[category];
+            return itemsInCategory.filter(item => item.id === productId)[0];
+        }
+
+        const renderHTML = () => {
+            const productData = getProductData();
+            if (productData === null) {
                 history.back();
                 return;
             }
-
-            const itemsInCategory = itemsData.category[category];
-            const productData = itemsInCategory.filter(item => item.id === productId)[0];
 
             headerTitleEl.innerHTML = productData.title;
             title.innerHTML += productData.title;
@@ -248,6 +250,26 @@
             productDescEl.innerHTML = `Description:<br/>${productData.description}`;
         }
         renderHTML();
+
+        addToCartBtn.addEventListener('click', () => {
+            // No need to check if data is null again since it is already validated
+            const productData = getProductData();
+            const categoryAndProductId = getCategoryAndProductId();
+            const category = categoryAndProductId.category;
+            const id = categoryAndProductId.id;
+
+            const productGoingToCart = {
+                title: productData.title,
+                image: productData.image,
+                price: productData.price,
+                quantity: 1,
+                hrefLink: `productpage.html?category=${category}&id=${id}`
+            };
+
+            let productsInCart = JSON.parse(localStorage.getItem('cart'));
+            productsInCart.push(productGoingToCart);
+            localStorage.setItem('cart', JSON.stringify(productsInCart));
+        });
     </script>
 </body>
 </html>

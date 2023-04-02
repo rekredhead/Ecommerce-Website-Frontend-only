@@ -19,20 +19,21 @@
             right: 1em;
             height: 4em;
             width: 5em;
-            background-color: rgb(194, 194, 194);
+            border: 0.1em solid rgb(0, 153, 255);
+            background-color: white;
+            color: rgb(0, 153, 255);
             border-radius: 1em;
             justify-content: center;
             align-items: center;
-            transition: 0.2s;
         }
         .cart-btn:hover {
-            transform: scale(1.1);
-        }
-        .cart-btn:active {
-            background-color: black;
+            background-color: rgb(0, 153, 255);
             color: white;
         }
-        .cart-btn span {
+        .cart-btn:active {
+            opacity: 50%;
+        }
+        .cart-btn > span {
             font-size: 3em;
         }
 
@@ -77,11 +78,13 @@
     </style>
 </head>
 <body style="background-color: rgb(255, 255, 255);">
-    <button class="cart-btn">
-        <span class="material-symbols-outlined">
-            shopping_cart
-        </span>
-    </button>
+    <a href="cartpage.html">
+        <button class="cart-btn">
+            <span class="material-symbols-outlined">
+                shopping_cart
+            </span>
+        </button>
+    </a>
     
     <div class="category-buttons">
         <a href="categorypage.html?category=food">
@@ -106,5 +109,9 @@
             </div>
         </a>
     </div>
+    <script>
+        // Initialize the cart
+        localStorage.setItem('cart', JSON.stringify([]));
+    </script>
 </body>
 </html>
