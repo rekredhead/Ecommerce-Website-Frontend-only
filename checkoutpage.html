@@ -83,6 +83,14 @@
             align-items: center;
             padding-left: 0.5em;
         }
+
+        .grid-headers {
+            display: grid;
+            grid-template-columns: 9.33em 12.2em 6em 6em;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
         .item-row {
             display: grid;
             grid-template-columns: 9.33em 12.2em 6em 6em;
@@ -100,12 +108,13 @@
         .item-image-container {
             position: relative;
             overflow: hidden;
+            border: 0.1em solid black;
+            margin: 0.1em;
         }
-        .item-image-container > img {
+        .item-image-container img {
             display: flex;
             position: absolute;
             width: 100%;
-            border: 0.1em solid black;
         }
 
         .edit-btn-container {
@@ -204,25 +213,7 @@
                 </div>
                 <div class="items-info-row">
                     <div class="row-title">Ordered Items</div>
-                    <div class="items-info">
-                        <!-- Add headers for the grid here-->
-                        <div class="item-row">
-                            <div class="item-image-container">
-                                <img src="itemAppleMacBookAir.png" alt="image"/>
-                            </div>
-                            <div class="item-title">Name</div>
-                            <div class="item-price">$200</div>
-                            <div class="item-quantity">000</div>
-                        </div>
-                        <div class="item-row">
-                            <div class="item-image-container">
-                                <img src="itemBeefTacos.png" alt="image"/>
-                            </div>
-                            <div class="item-title">Name</div>
-                            <div class="item-price">$200</div>
-                            <div class="item-quantity">000</div>
-                        </div>
-                    </div>
+                    <div class="items-info"></div>
                     <div class="edit-btn-container">
                         <button>Edit</button>
                     </div>
@@ -230,18 +221,20 @@
             </div>
         </div>
         <div class="column-2">
-            <div class="order-info-box">
-                <h1>Order</h1>
-                <h2>No. of Items:</h2>
-                <h2>Total Price: $</h2>
-                <button class="place-order-btn">Place Order</button>
-            </div>
+            <div class="order-info-box"></div>
         </div>
     </div>
 
     <script>
-        // Run if paymentInfo is in localstorage
-        // Direct user to paymentInfo page if it is not in localstorage
+        const orderInfoBoxEl = document.querySelector('.order-info-box');
+        const itemsInfoEl = document.querySelector('.items-info');
+        const domain = window.location.origin;
+
+        const isAddressAndPaymentMethodAvailable = () => {
+            const paymentDetailsNotAvailable = localStorage.getItem('paymentDetails') === null;
+            const shippingAddressNotAvailable = localStorage.getItem('shippingAddress') === null;
+            return !(paymentDetailsNotAvailable || shippingAddressNotAvailable);
+        }
         
         const getCheckoutType = () => {
             const query = window.location.search.substring(1);
@@ -262,7 +255,57 @@
             }
         }
 
-        console.log(getCheckoutType());
+        const renderHTML = () => {
+            if (!isAddressAndPaymentMethodAvailable()) {
+                //window.location.href = `${domain}/(paymentAndAddressPage)`;
+                //return;
+            }
+
+            const checkoutType = getCheckoutType();
+            if (checkoutType === null) {
+                history.back();
+                return;
+            }
+
+            // Add code to render HTML for payment info and shipping address
+
+            const storedData = JSON.parse(localStorage.getItem(checkoutType));
+
+            // Item grid headers
+            itemsInfoEl.innerHTML = `
+                <div class="grid-headers">
+                    <h4>Preview</h4>
+                    <h4>Title</h4>
+                    <h4>Price</h4>
+                    <h4>Quantity</h4>
+                </div>
+            `;
+
+            // Items Info Grid
+            itemsInfoEl.innerHTML += storedData.map(item => {
+                const hrefLink = `productpage.html?category=${item.category}&id=${item.id}`;
+                return `
+                    <div class="item-row">
+                        <a class="item-image-container" href="${hrefLink}">
+                            <img src="${item.image}" alt="${item.title}"/>
+                        </a>
+                        <div class="item-title">${item.title}</div>
+                        <div class="item-price">$${item.price}</div>
+                        <div class="item-quantity">${item.quantity}</div>
+                    </div>
+                `;
+            }).join('');
+
+            const noOfItems = storedData.length;
+            const totalPrice = storedData.reduce((a, b) => a + (b.price * b.quantity), 0);
+            orderInfoBoxEl.innerHTML = `
+                <h1>Order</h1>
+                <h2>No. of Items: ${noOfItems}</h2>
+                <h2>Total Price: $${totalPrice}</h2>
+                <button class="place-order-btn">Place Order</button>
+            `;
+        }
+        renderHTML();
     </script>
 </body>
 </html>
