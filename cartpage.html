@@ -23,6 +23,7 @@
             padding: 0 2em;
             gap: 2em;
             height: 7em;
+            z-index: 1;
         }
         .back-button {
             display: flex;
@@ -166,16 +167,7 @@
 
     <div class="container">
         <div class="column-1">
-            <div class="cart-items-grid">
-                <div class="grid-headers">Preview</div>
-                <div class="grid-headers">Title</div>
-                <div class="grid-headers">Cumulative Price</div>
-                <div class="grid-headers">Quantity</div>
-                <div
-                    class="grid-headers"
-                    style="background-color:white; border:none;">
-                </div>
-            </div>
+            <div class="cart-items-grid"></div>
         </div>
         <div class="column-2">
             <div class="cart-info-box"></div>
@@ -188,6 +180,19 @@
         const renderHTML = () => {
             const cartData = JSON.parse(localStorage.getItem('cart'));
 
+            // Grid Headers
+            cartItemsGridEl.innerHTML = `
+                <div class="grid-headers">Preview</div>
+                <div class="grid-headers">Title</div>
+                <div class="grid-headers">Cumulative Price</div>
+                <div class="grid-headers">Quantity</div>
+                <div
+                    class="grid-headers"
+                    style="background-color:white; border:none;">
+                </div>
+            `;
+
+            // Cart Items
             cartItemsGridEl.innerHTML += cartData.map((product, index) => {
                 return `
                     <a href="${product.hrefLink}">
@@ -203,13 +208,13 @@
                         <button id=${index} class="item-quantity-decrementer">-</button>
                     </div>
                     <div class="item-remove-div">
-                        <button id=${index}>Remove Item</button>
+                        <button onclick="removeItem(event)" data-index=${index}>Remove Item</button>
                     </div>
                 `;
             }).join('');
 
             const noOfItemsIn = cartData.length;
-            const totalPrice = noOfItemsIn === 0 ? 0 : cartData.reduce((a, b) => a.price + b.price);
+            const totalPrice = noOfItemsIn === 0 ? 0 : cartData.reduce((a, b) => a + b.price, 0);
             cartInfoBoxEl.innerHTML = `
                 <h2>No. of Items: ${noOfItemsIn}</h2>
                 <h2>Total Price: $${totalPrice}</h2>
@@ -217,6 +222,14 @@
             `;
         }
         renderHTML();
+
+        const removeItem = (event) => {
+            const indexToRemove = parseInt(event.target.dataset.index);
+            const cartData = JSON.parse(localStorage.getItem('cart'));
+            cartData.splice(indexToRemove, 1);
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            renderHTML();
+        }
     </script>
 </body>
 </html>
