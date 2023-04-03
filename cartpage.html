@@ -194,6 +194,7 @@
 
             // Cart Items
             cartItemsGridEl.innerHTML += cartData.map((product, index) => {
+                const cumulativePrice = product.price * product.quantity;
                 return `
                     <a href="${product.hrefLink}">
                         <div class="item-image-container">
@@ -201,11 +202,11 @@
                         </div>
                     </a>
                     <div class="item-title">${product.title}</div>
-                    <div class="item-price">$${product.price}</div>
-                    <div class="item-quantity-controller">
-                        <input id=${index} class="item-quantity" value=${product.quantity}>
-                        <button id=${index} class="item-quantity-incrementer">+</button>
-                        <button id=${index} class="item-quantity-decrementer">-</button>
+                    <div class="item-price">$${cumulativePrice.toFixed(2)}</div>
+                    <div data-index="${index}" class="item-quantity-controller">
+                        <input disabled class="item-quantity" value=${product.quantity}>
+                        <button id="increment" onclick="changeQuantity(event)">+</button>
+                        <button id="decrement" onclick="changeQuantity(event)">-</button>
                     </div>
                     <div class="item-remove-div">
                         <button onclick="removeItem(event)" data-index=${index}>Remove Item</button>
@@ -213,11 +214,15 @@
                 `;
             }).join('');
 
+            // Cart Info
             const noOfItemsIn = cartData.length;
-            const totalPrice = noOfItemsIn === 0 ? 0 : cartData.reduce((a, b) => a + b.price, 0);
+            const totalPrice = noOfItemsIn === 0 ? 0 :
+                cartData.reduce((a, b) => {
+                    return a + (b.price * b.quantity)
+                }, 0);
             cartInfoBoxEl.innerHTML = `
                 <h2>No. of Items: ${noOfItemsIn}</h2>
-                <h2>Total Price: $${totalPrice}</h2>
+                <h2>Total Price: $${totalPrice.toFixed(2)}</h2>
                 <button class="checkout-btn">Checkout</button>
             `;
         }
@@ -227,6 +232,22 @@
             const indexToRemove = parseInt(event.target.dataset.index);
             const cartData = JSON.parse(localStorage.getItem('cart'));
             cartData.splice(indexToRemove, 1);
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            renderHTML();
+        }
+        
+        const changeQuantity = (event) => {
+            const index = event.target.parentElement.dataset.index;
+            const actionType = event.target.id;
+            const cartData = JSON.parse(localStorage.getItem('cart'));
+
+            if (actionType === 'increment') {
+                cartData[index].quantity++;
+            } else if (actionType === 'decrement') {
+                cartData[index].quantity--;
+            }
+
+            if (cartData[index].quantity < 1) return;
             localStorage.setItem('cart', JSON.stringify(cartData));
             renderHTML();
         }
