@@ -175,45 +175,48 @@
                     class="grid-headers"
                     style="background-color:white; border:none;">
                 </div>
-                <a href="#">
-                    <div class="item-image-container">
-                        <img src="itemAppleMacBookAir.png" alt="Image"/>
-                    </div>
-                </a>
-                <div class="item-title">Super Sonic</div>
-                <div class="item-price">$100.00</div>
-                <div class="item-quantity-controller">
-                    <input class="item-quantity" value="1">
-                    <button class="item-quantity-incrementer">+</button>
-                    <button class="item-quantity-decrementer">-</button>
-                </div>
-                <div class="item-remove-div">
-                    <button>Remove Item</button>
-                </div>
-                <a href="#">
-                    <div class="item-image-container">
-                        <img src="itemAppleMacBookAir.png" alt="Image"/>
-                    </div>
-                </a>
-                <div class="item-title">Super Sonic</div>
-                <div class="item-price">$100.00</div>
-                <div class="item-quantity-controller">
-                    <input class="item-quantity" value="1">
-                    <button class="item-quantity-incrementer">+</button>
-                    <button class="item-quantity-decrementer">-</button>
-                </div>
-                <div class="item-remove-div">
-                    <button>Remove Item</button>
-                </div>
             </div>
         </div>
         <div class="column-2">
-            <div class="cart-info-box">
-                <h2>No. of Items: </h2>
-                <h2>Total Price: </h2>
-                <button class="checkout-btn">Checkout</button>
-            </div>
+            <div class="cart-info-box"></div>
         </div>
     </div>
+    <script>
+        const cartInfoBoxEl = document.querySelector('.cart-info-box');
+        const cartItemsGridEl = document.querySelector('.cart-items-grid');
+
+        const renderHTML = () => {
+            const cartData = JSON.parse(localStorage.getItem('cart'));
+
+            cartItemsGridEl.innerHTML += cartData.map((product, index) => {
+                return `
+                    <a href="${product.hrefLink}">
+                        <div class="item-image-container">
+                            <img src="${product.image}" alt="${product.title}"/>
+                        </div>
+                    </a>
+                    <div class="item-title">${product.title}</div>
+                    <div class="item-price">$${product.price}</div>
+                    <div class="item-quantity-controller">
+                        <input id=${index} class="item-quantity" value=${product.quantity}>
+                        <button id=${index} class="item-quantity-incrementer">+</button>
+                        <button id=${index} class="item-quantity-decrementer">-</button>
+                    </div>
+                    <div class="item-remove-div">
+                        <button id=${index}>Remove Item</button>
+                    </div>
+                `;
+            }).join('');
+
+            const noOfItemsIn = cartData.length;
+            const totalPrice = noOfItemsIn === 0 ? 0 : cartData.reduce((a, b) => a.price + b.price);
+            cartInfoBoxEl.innerHTML = `
+                <h2>No. of Items: ${noOfItemsIn}</h2>
+                <h2>Total Price: $${totalPrice}</h2>
+                <button class="checkout-btn">Checkout</button>
+            `;
+        }
+        renderHTML();
+    </script>
 </body>
 </html>
