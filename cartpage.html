@@ -224,7 +224,7 @@
             cartInfoBoxEl.innerHTML = `
                 <h2>No. of Items: ${noOfItemsIn}</h2>
                 <h2>Total Price: $${totalPrice.toFixed(2)}</h2>
-                <button class="checkout-btn">Checkout</button>
+                <button onclick="goToCheckout()" class="checkout-btn">Checkout</button>
             `;
         }
         renderHTML();
@@ -251,6 +251,11 @@
             if (cartData[index].quantity < 1) return;
             localStorage.setItem('cart', JSON.stringify(cartData));
             renderHTML();
+        }
+
+        const goToCheckout = () => {
+            const domain = window.location.origin;
+            window.location.href = `${domain}/checkoutpage.html?checkoutType=cart`;
         }
     </script>
 </body>
