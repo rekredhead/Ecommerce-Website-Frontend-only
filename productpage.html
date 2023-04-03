@@ -269,6 +269,7 @@
             let productsInCart = JSON.parse(localStorage.getItem('cart'));
             productsInCart.push(productGoingToCart);
             localStorage.setItem('cart', JSON.stringify(productsInCart));
+            alert(`Added ${productData.title} to Cart`);
         });
     </script>
 </body>
