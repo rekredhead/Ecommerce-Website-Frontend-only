@@ -195,8 +195,9 @@
             // Cart Items
             cartItemsGridEl.innerHTML += cartData.map((product, index) => {
                 const cumulativePrice = product.price * product.quantity;
+                const hrefLink = `productpage.html?category=${product.category}&id=${product.id}`;
                 return `
-                    <a href="${product.hrefLink}">
+                    <a href="${hrefLink}">
                         <div class="item-image-container">
                             <img src="${product.image}" alt="${product.title}"/>
                         </div>

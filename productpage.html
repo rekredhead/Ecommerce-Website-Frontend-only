@@ -253,20 +253,29 @@
 
         addToCartBtn.addEventListener('click', () => {
             // No need to check if data is null again since it is already validated
-            const productData = getProductData();
+
             const categoryAndProductId = getCategoryAndProductId();
             const category = categoryAndProductId.category;
             const id = categoryAndProductId.id;
+            let productsInCart = JSON.parse(localStorage.getItem('cart'));
 
+            const isProductAlreadyInCart = (productsInCart.filter(product => product.id === id)).length > 0;
+            if (isProductAlreadyInCart) {
+                alert("Product is already in Cart");
+                return;
+            }
+
+            const productData = getProductData();
             const productGoingToCart = {
+                id,
+                category,
                 title: productData.title,
                 image: productData.image,
                 price: productData.price,
-                quantity: 1,
-                hrefLink: `productpage.html?category=${category}&id=${id}`
+                quantity: 1
             };
 
-            let productsInCart = JSON.parse(localStorage.getItem('cart'));
+            
             productsInCart.push(productGoingToCart);
             localStorage.setItem('cart', JSON.stringify(productsInCart));
             alert(`Added ${productData.title} to Cart`);
