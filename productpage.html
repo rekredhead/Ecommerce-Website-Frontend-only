@@ -251,34 +251,46 @@
         }
         renderHTML();
 
-        addToCartBtn.addEventListener('click', () => {
+        const getProductDataForPurchase = () => {
             // No need to check if data is null again since it is already validated
-
             const categoryAndProductId = getCategoryAndProductId();
+            const productData = getProductData();
             const category = categoryAndProductId.category;
             const id = categoryAndProductId.id;
-            let productsInCart = JSON.parse(localStorage.getItem('cart'));
 
-            const isProductAlreadyInCart = (productsInCart.filter(product => product.id === id)).length > 0;
-            if (isProductAlreadyInCart) {
-                alert("Product is already in Cart");
-                return;
-            }
-
-            const productData = getProductData();
-            const productGoingToCart = {
+            const productObject = {
                 id,
                 category,
                 title: productData.title,
                 image: productData.image,
                 price: productData.price,
                 quantity: 1
-            };
+            }
 
+            return productObject;
+        }
+
+        addToCartBtn.addEventListener('click', () => {
+            const productObject = getProductDataForPurchase();
+            let productsInCart = JSON.parse(localStorage.getItem('cart'));
+
+            const isProductAlreadyInCart = (productsInCart.filter(product => product.id === productObject.id)).length > 0;
+            if (isProductAlreadyInCart) {
+                alert("Product is already in Cart");
+                return;
+            }
             
-            productsInCart.push(productGoingToCart);
+            productsInCart.push(productObject);
             localStorage.setItem('cart', JSON.stringify(productsInCart));
-            alert(`Added ${productData.title} to Cart`);
+            alert(`Added ${productObject.title} to Cart`);
+        });
+
+        buyNowBtn.addEventListener('click', () => {
+            const productObject = getProductDataForPurchase();
+            localStorage.setItem('productToBuy', JSON.stringify(productObject));
+
+            const domain = window.location.origin;
+            window.location.href = `${domain}/checkoutpage.html?checkoutType=product`;
         });
     </script>
 </body>
