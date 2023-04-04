@@ -182,22 +182,20 @@
                 <div class="shipping-info-row">
                     <div class="row-title">Shipping Address</div>
                     <div class="shipping-info"></div>
-                    <div class="edit-btn-container">
-                        <button>Edit</button>
+                    <div style="border-bottom: none;" class="edit-btn-container">
+                        <button id="edit-customer-info-btn">Edit</button>
                     </div>
                 </div>
                 <div class="payment-info-row">
                     <div class="row-title">Payment Information</div>
                     <div class="payment-info"></div>
-                    <div class="edit-btn-container">
-                        <button>Edit</button>
-                    </div>
+                    <div style="border-top: none;" class="edit-btn-container"></div>
                 </div>
                 <div class="items-info-row">
                     <div class="row-title">Ordered Items</div>
                     <div class="items-info"></div>
                     <div class="edit-btn-container">
-                        <button id="edit-btn">Edit</button>
+                        <button id="edit-ordered-items-btn">Edit</button>
                     </div>
                 </div>
             </div>
@@ -212,7 +210,8 @@
         const itemsInfoEl = document.querySelector('.items-info');
         const shippingInfoEl = document.querySelector('.shipping-info');
         const paymentInfoEl = document.querySelector('.payment-info');
-        const editBtn = document.getElementById('edit-btn');
+        const editOrderedItemsBtn = document.getElementById('edit-ordered-items-btn');
+        const editCustomerInfoBtn = document.getElementById('edit-customer-info-btn');
         const domain = window.location.origin;
 
         const isAddressAndPaymentMethodAvailable = () => {
@@ -329,7 +328,7 @@
         }
         renderHTML();
 
-        editBtn.addEventListener('click', () => {
+        editOrderedItemsBtn.addEventListener('click', () => {
             const checkoutType = getCheckoutType(); // Checkout type is already validated - no need to re-validate
 
             if (checkoutType === 'cart') {
@@ -338,6 +337,10 @@
                 const { id, category} = JSON.parse(localStorage.getItem(checkoutType))[0];
                 window.location.href = `${domain}/productpage.html?category=${category}&id=${id}`;
             }
+        });
+
+        editCustomerInfoBtn.addEventListener('click', () => {
+            window.location.href = `${domain}/customerinformationpage.html`;
         });
     </script>
 </body>
