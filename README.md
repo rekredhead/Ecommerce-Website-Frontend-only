@@ -13,3 +13,4 @@
 - Start optimizing the webpages for better performance - use Google Lighthouse
 - Remove unnecessary elements, unused classes, reduce js codes
 - Reduce full project size to less than 20MB
+- Make note telling where to start the website from (homepage.html)

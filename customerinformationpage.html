@@ -323,6 +323,24 @@
         saveDetailsBtn.addEventListener('click', () => {
             const inputFieldsCount = document.querySelectorAll('input').length;
             if (!isDataValid(inputFieldsCount)) return;
+            
+            const shippingAddress = {
+                streetAddress: streetAddressEl.value.trim(),
+                city: removeSpaces(cityEl.value),
+                country: removeSpaces(countryEl.value),
+                postalCode: removeSpaces(postalCodeEl.value)
+            };
+            const paymentDetails = {
+                cardType: getCardType(),
+                cardNumber: removeSpaces(cardNumberEl.value),
+                expirationDate: expirationDateEl.value,
+                securityCode: removeSpaces(securityCodeEl.value)
+            };
+
+            localStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
+            localStorage.setItem('paymentDetails', JSON.stringify(paymentDetails));
+
+            history.back();
         });
 
         clearAllBtn.addEventListener('click', () => {
