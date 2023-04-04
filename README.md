@@ -1,5 +1,11 @@
 # TODOS
 - Add quantity field in product page
+- Change the connection of the checkout page
+    - Do not store the customer details in local storage
+    - When the user clicks 'buy now' or 'go to checkout'
+    - They are sent to the customer details page to fill in their details
+    - The data is store in localstorage when they 'Go To Checkout' in the page
+    - When the user goes to checkout page - the data is take from local storage and rendered into the page and then localstorage keys are cleared
 - Make webpages look good on mobile, at end of project
 - Change layout of webpages on mobile
 - Keep common css in one file

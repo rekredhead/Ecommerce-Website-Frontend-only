@@ -165,19 +165,6 @@
         const saveDetailsBtn    = document.querySelector(".confirm-info-btn");
         const clearAllBtn       = document.querySelector(".clear-all-btn");
 
-        const getPreExistingData = () => {
-            let preExistingShippingAddress = JSON.parse(localStorage.getItem('shippingAddress'));
-            let preExistingPaymentDetails = JSON.parse(localStorage.getItem('paymentDetails'));
-
-            if (preExistingPaymentDetails === null) preExistingPaymentDetails = {};
-            if (preExistingShippingAddress === null) preExistingShippingAddress = {};
-
-            return {
-                preExistingShippingAddress,
-                preExistingPaymentDetails
-            };
-        }
-
         const getCardType = () => {
             const isCreditCardType =
                 radioCreditCardEl.checked && !radioDebitCardEl.checked;
@@ -189,6 +176,7 @@
 
         const renderHTML = () => {
         }
+        renderHTML();
         
         clearAllBtn.addEventListener('click', () => {
             streetAddressEl.value = "";
@@ -201,7 +189,6 @@
             expirationDateEl.value = "";
             securityCodeEl.value = "";
         });
-        // Work input validation first
     </script>
 </body>
 </html>
