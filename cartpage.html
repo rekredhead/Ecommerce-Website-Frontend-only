@@ -254,6 +254,12 @@
         }
 
         const goToCheckout = () => {
+            const cartData = JSON.parse(localStorage.getItem('cart'));
+            if (cartData.length < 1) {
+                alert("You cannot checkout if the cart is empty");
+                return;
+            }
+
             const domain = window.location.origin;
             window.location.href = `${domain}/checkoutpage.html?checkoutType=cart`;
         }
