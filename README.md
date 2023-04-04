@@ -1,9 +1,4 @@
 # TODOS
-- Keep shipping address and payment details in localstorage
-    - Remove it from localstorage after user places the order
-    - Keep it so that user can edit the data anytime they want
-        - Direct user to customerinformationpage again
-        - Take shipping address and payment details from localstorage if available
 - Add quantity field in product page
 - Direct user to checkoutpage (with checkoutType) after submitting customer info data (not the product/cart page)
 - Do not let user go to checkout page if cart is empty

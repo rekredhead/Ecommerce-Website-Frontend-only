@@ -304,7 +304,7 @@
                 <h1>Order</h1>
                 <h2>No. of Items: ${noOfItems}</h2>
                 <h2>Total Price: $${totalPrice.toFixed(2)}</h2>
-                <button class="place-order-btn">Place Order</button>
+                <button onclick="placeOrder()" class="place-order-btn">Place Order</button>
             `;
         }
 
@@ -342,6 +342,17 @@
         editCustomerInfoBtn.addEventListener('click', () => {
             window.location.href = `${domain}/customerinformationpage.html`;
         });
+
+        const placeOrder = () => {
+            const checkoutType = getCheckoutType();
+
+            // Remove sensitive data after placing order - security
+            //localStorage.removeItem(checkoutType);
+            //localStorage.removeItem('shippingAddress');
+            //localStorage.removeItem('paymentInformation');
+
+            window.location.href = `${domain}/thankyouforpurchasepage.html`;
+        }
     </script>
 </body>
 </html>
