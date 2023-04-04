@@ -165,6 +165,29 @@
         const saveDetailsBtn    = document.querySelector(".confirm-info-btn");
         const clearAllBtn       = document.querySelector(".clear-all-btn");
 
+        const renderExistingDataToHTML = () => {
+            const shippingAddress = JSON.parse(localStorage.getItem('shippingAddress'));
+            const paymentDetails = JSON.parse(localStorage.getItem('paymentDetails'));
+
+            if (shippingAddress === null || paymentDetails === null) return;
+            
+            streetAddressEl.value = shippingAddress.streetAddress;
+            cityEl.value = shippingAddress.city;
+            countryEl.value = shippingAddress.country;
+            postalCodeEl.value = shippingAddress.postalCode;
+            cardNumberEl.value = paymentDetails.cardNumber;
+            expirationDateEl.value = paymentDetails.expirationDate;
+            securityCodeEl.value = paymentDetails.securityCode;
+
+            const cardType = paymentDetails.cardType;
+            if (cardType === 'credit') {
+                radioCreditCardEl.checked = true;
+            } else if (cardType === 'debit') {
+                radioDebitCardEl.checked = true;
+            }
+        }
+        renderExistingDataToHTML();
+
         const hasLettersOnly = (value) => {
             return /^[a-z]+$/i.test(value);
         }
