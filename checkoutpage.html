@@ -258,8 +258,8 @@
 
         const renderHTML = () => {
             if (!isAddressAndPaymentMethodAvailable()) {
-                //window.location.href = `${domain}/(paymentAndAddressPage)`;
-                //return;
+                window.location.href = `${domain}/customerinformationpage.html`;
+                return;
             }
 
             const checkoutType = getCheckoutType();
