@@ -115,7 +115,7 @@
                 arrow_back
             </span>
         </button>
-        <h1 class="category-title">Customer Information</h1>
+        <h1 class="category-title">Payment and Shipping Details</h1>
     </header>
     
     <div class="container">
@@ -165,6 +165,19 @@
         const saveDetailsBtn    = document.querySelector(".confirm-info-btn");
         const clearAllBtn       = document.querySelector(".clear-all-btn");
 
+        const hasLettersOnly = (value) => {
+            return /^[a-z]+$/i.test(value);
+        }
+        const hasNumbersOnly = (value) => {
+            return /^[0-9]+$/i.test(value);
+        }
+        const containsInvalidSymbols = (value) => {
+            return /[^-.,\w\s]/g.test(value);
+        }
+        const removeSpaces = (value) => {
+            return value.replaceAll(" ", "");
+        }
+
         const getCardType = () => {
             const isCreditCardType =
                 radioCreditCardEl.checked && !radioDebitCardEl.checked;
@@ -174,11 +187,146 @@
             return isCreditCardType ? 'credit' : isDebitCardType ? 'debit' : 'invalid';
         }
 
-        const renderHTML = () => {
+        const isStreetAddressValid = () => {
+            const streetAddress = streetAddressEl.value.trim();
+
+            if (streetAddress === "") {
+                alert("Please fill in your street address");
+                return false;
+            } else if (containsInvalidSymbols(streetAddress)) {
+                alert("Please do not add invalid symbols in the street address");
+                return false;
+            }
+
+            return true;
         }
-        renderHTML();
-        
+        const isCityValid = () => {
+            const city = removeSpaces(cityEl.value);
+
+            if (city === "") {
+                alert("Please fill in your city");
+                return false;
+            } else if (!hasLettersOnly(city)) {
+                alert("Please enter letters only for your city");
+                return false;
+            }
+
+            return true;
+        }
+        const isCountry = () => {
+            const country = removeSpaces(countryEl.value);
+
+            if (country === "") {
+                alert("Please fill in your country");
+                return false;
+            } else if (!hasLettersOnly(country)) {
+                alert("Please enter letters only for your country");
+                return false;
+            }
+
+            return true;
+        }
+        const isPostalCodeValid = () => {
+            const postalCode = removeSpaces(postalCodeEl.value);
+
+            if (postalCode === "") {
+                alert("Please fill in your postal code");
+                return false;
+            } else if (containsInvalidSymbols(postalCode)) {
+                alert("Please do not add invalid symbols in your postal code");
+                return false;
+            }
+
+            return true;
+        }
+        const isCardTypeValid = () => {
+            const cardType = getCardType();
+
+            if (cardType === 'invalid') {
+                alert("Please select a Card Type");
+                return false;
+            }
+            
+            return true;
+        }
+        const isCardNumberValid = () => {
+            const cardNumber = removeSpaces(cardNumberEl.value);
+
+            if (cardNumber === "") {
+                alert("Please fill in your card number");
+                return false;
+            } else if (!hasNumbersOnly(cardNumber)) {
+                alert("Please enter only numbers for your card number");
+                return false;
+            } else if (cardNumber.length < 14 || cardNumber.length > 16) {
+                alert("Please enter a valid card number");
+                return false;
+            }
+
+            return true;
+        }
+        const isExpirationDateValid = () => {
+            const expirationDate = expirationDateEl.value;
+            const isCardExpired = new Date(expirationDate) <= new Date();
+
+            if (expirationDate === "") {
+                alert("Please fill in your card expiration date");
+                return false;
+            } else if (isCardExpired) {
+                alert("Card has already expired. Please use a non-expired card");
+                return false;
+            }
+
+            return true;
+        }
+        const isSecurityCodeValid = () => {
+            const securityCode = removeSpaces(securityCodeEl.value);
+
+            if (securityCode === "") {
+                alert("Please fill in the security code for your card");
+                return false;
+            } else if (!hasNumbersOnly(securityCode)) {
+                alert("Please enter numbers only for the card security code");
+                return false;
+            } else if (securityCode.length !== 3) {
+                alert("Security Code must be 3 digits");
+                return false;
+            }
+
+            return true;
+        }
+
+        const validatedInputs = [
+            isStreetAddressValid, isCityValid,
+            isCountry, isPostalCodeValid,
+            isCardTypeValid, isCardNumberValid,
+            isExpirationDateValid, isSecurityCodeValid
+        ];
+
+        const isDataValid = (index) => {
+            if (index > 4) index--;
+            for (let i = 0; i < index; i++) {
+                if (!validatedInputs[i]()) return false;
+            }
+            return true;
+        }
+
+        // Validate the fields before the field being focused on
+        document.querySelectorAll('input').forEach((input, index) => {
+            input.addEventListener('focus', () => {
+                if (!isDataValid(index)) {
+                    input.blur(); // Remove focus
+                }
+            });
+        });
+
+        saveDetailsBtn.addEventListener('click', () => {
+            const inputFieldsCount = document.querySelectorAll('input').length;
+            if (!isDataValid(inputFieldsCount)) return;
+        });
+
         clearAllBtn.addEventListener('click', () => {
+            if (!confirm("Are you sure you want to clear all fields?")) return;
             streetAddressEl.value = "";
             cityEl.value = "";
             countryEl.value = "";
