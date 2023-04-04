@@ -309,12 +309,14 @@
         }
 
         const renderHTML = () => {
+            const checkoutType = getCheckoutType();
+
             if (!isAddressAndPaymentMethodAvailable()) {
+                localStorage.setItem('checkoutType', checkoutType);
                 window.location.href = `${domain}/customerinformationpage.html`;
                 return;
             }
 
-            const checkoutType = getCheckoutType();
             if (checkoutType === null) {
                 history.back();
                 return;
@@ -340,6 +342,9 @@
         });
 
         editCustomerInfoBtn.addEventListener('click', () => {
+            const checkoutType = getCheckoutType();
+            localStorage.setItem('checkoutType', checkoutType);
+            
             window.location.href = `${domain}/customerinformationpage.html`;
         });
 
