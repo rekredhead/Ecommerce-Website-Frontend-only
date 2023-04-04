@@ -347,9 +347,9 @@
             const checkoutType = getCheckoutType();
 
             // Remove sensitive data after placing order - security
-            //localStorage.removeItem(checkoutType);
-            //localStorage.removeItem('shippingAddress');
-            //localStorage.removeItem('paymentInformation');
+            localStorage.removeItem(checkoutType);
+            localStorage.removeItem('shippingAddress');
+            localStorage.removeItem('paymentDetails');
 
             window.location.href = `${domain}/thankyouforpurchasepage.html`;
         }
