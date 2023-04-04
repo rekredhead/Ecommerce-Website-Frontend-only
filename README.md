@@ -6,6 +6,7 @@
         - Take shipping address and payment details from localstorage if available
 - Add quantity field in product page
 - Direct user to checkoutpage (with checkoutType) after submitting customer info data (not the product/cart page)
+- Do not let user go to checkout page if cart is empty
 - Make webpages look good on mobile, at end of project
 - Change layout of webpages on mobile
 - Keep common css in one file

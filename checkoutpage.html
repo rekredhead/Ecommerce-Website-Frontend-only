@@ -197,7 +197,7 @@
                     <div class="row-title">Ordered Items</div>
                     <div class="items-info"></div>
                     <div class="edit-btn-container">
-                        <button>Edit</button>
+                        <button id="edit-btn">Edit</button>
                     </div>
                 </div>
             </div>
@@ -208,11 +208,11 @@
     </div>
 
     <script>
-        // Goes to product / cart page when items info edit btn is clicked
         const orderInfoBoxEl = document.querySelector('.order-info-box');
         const itemsInfoEl = document.querySelector('.items-info');
         const shippingInfoEl = document.querySelector('.shipping-info');
         const paymentInfoEl = document.querySelector('.payment-info');
+        const editBtn = document.getElementById('edit-btn');
         const domain = window.location.origin;
 
         const isAddressAndPaymentMethodAvailable = () => {
@@ -328,6 +328,17 @@
             renderOrderInfoBox(storedData);
         }
         renderHTML();
+
+        editBtn.addEventListener('click', () => {
+            const checkoutType = getCheckoutType(); // Checkout type is already validated - no need to re-validate
+
+            if (checkoutType === 'cart') {
+                window.location.href = `${domain}/cartpage.html`;
+            } else if (checkoutType === 'product') {
+                const { id, category} = JSON.parse(localStorage.getItem(checkoutType))[0];
+                window.location.href = `${domain}/productpage.html?category=${category}&id=${id}`;
+            }
+        });
     </script>
 </body>
 </html>
