@@ -6,3 +6,4 @@
 - Keep different css files for each webpages
 - Start optimizing the webpages for better performance - use Google Lighthouse
 - Remove unnecessary elements, unused classes, reduce js codes
+- Reduce full project size to less than 20MB

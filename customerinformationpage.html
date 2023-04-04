@@ -121,12 +121,12 @@
     <div class="container">
         <div class="shipping-info-box">
             <h2>Shipping Address</h2>
-            <input type="text" placeholder="Street Address">
+            <input id="street-address-el" type="text" placeholder="Street Address">
             <div class="city-and-country-container">
-                <input type="text" placeholder="City">
-                <input type="text" placeholder="Country">
+                <input id="city-el" type="text" placeholder="City">
+                <input id="country-el" type="text" placeholder="Country">
             </div>
-            <input type="text" placeholder="Postal Code">
+            <input id="postal-code-el" type="text" placeholder="Postal Code">
         </div>
         <div class="payment-info-box">
             <h2>Payment Information</h2>
@@ -136,15 +136,15 @@
             </div>
             <div>
                 <p>Card Number</p>
-                <input type="text" placeholder="e.g.: 1234 1234 1234 1234">
+                <input id="card-number-el" type="text" placeholder="e.g.: 1234 1234 1234 1234">
             </div>
             <div>
                 <p>Expiration Date</p>
-                <input type="date">
+                <input id="exp-date-el" type="date">
             </div>
             <div>
                 <p>Security Code</p>
-                <input type="text" placeholder="e.g.: 123">
+                <input id="security-code-el" type="text" placeholder="e.g.: 123">
             </div>
         </div>
         <button class="confirm-info-btn">Save Details</button>
@@ -152,6 +152,19 @@
     </div>
 
     <script>
+        const streetAddressEl   = document.getElementById("street-address-el")
+        const cityEl            = document.getElementById("city-el")
+        const countryEl         = document.getElementById("country-el")
+        const postalCodeEl      = document.getElementById("postal-code-el")
+        const radioCreditCardEl = document.getElementById("radio-credit-card-type");
+        const radioDebitCardEl  = document.getElementById("radio-debit-card-type");
+        const cardNumberEl      = document.getElementById("card-number-el")
+        const expirationDateEl  = document.getElementById("exp-date-el")
+        const securityCodeEl    = document.getElementById("security-code-el")
+
+        const saveDetailsBtn    = document.querySelector(".confirm-info-btn");
+        const clearAllBtn       = document.querySelector(".clear-all-btn");
+
         const getPreExistingData = () => {
             let preExistingShippingAddress = JSON.parse(localStorage.getItem('shippingAddress'));
             let preExistingPaymentDetails = JSON.parse(localStorage.getItem('paymentDetails'));
@@ -165,7 +178,29 @@
             };
         }
 
-        console.log(getPreExistingData());
+        const getCardType = () => {
+            const isCreditCardType =
+                radioCreditCardEl.checked && !radioDebitCardEl.checked;
+            const isDebitCardType =
+                !radioCreditCardEl.checked && radioDebitCardEl.checked;
+
+            return isCreditCardType ? 'credit' : isDebitCardType ? 'debit' : 'invalid';
+        }
+
+        const renderHTML = () => {
+        }
+        
+        clearAllBtn.addEventListener('click', () => {
+            streetAddressEl.value = "";
+            cityEl.value = "";
+            countryEl.value = "";
+            postalCodeEl.value = "";
+            radioCreditCardEl.checked = false;
+            radioDebitCardEl.checked = false;
+            cardNumberEl.value = "";
+            expirationDateEl.value = "";
+            securityCodeEl.value = "";
+        });
         // Work input validation first
     </script>
 </body>
