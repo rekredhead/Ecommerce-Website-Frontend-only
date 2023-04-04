@@ -226,6 +226,7 @@
     </div>
 
     <script>
+        // Goes to product / cart page when items info edit btn is clicked
         const orderInfoBoxEl = document.querySelector('.order-info-box');
         const itemsInfoEl = document.querySelector('.items-info');
         const domain = window.location.origin;
@@ -301,7 +302,7 @@
             orderInfoBoxEl.innerHTML = `
                 <h1>Order</h1>
                 <h2>No. of Items: ${noOfItems}</h2>
-                <h2>Total Price: $${totalPrice}</h2>
+                <h2>Total Price: $${totalPrice.toFixed(2)}</h2>
                 <button class="place-order-btn">Place Order</button>
             `;
         }
