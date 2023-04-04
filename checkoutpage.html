@@ -181,32 +181,14 @@
             <div class="checkout-info">
                 <div class="shipping-info-row">
                     <div class="row-title">Shipping Address</div>
-                    <div class="shipping-info">
-                        <p>Address</p>
-                        <p>Sample Data</p>
-                        <p>City</p>
-                        <p>Sample Data</p>
-                        <p>Country</p>
-                        <p>Sample Data</p>
-                        <p>Post Code</p>
-                        <p>Sample Data</p>
-                    </div>
+                    <div class="shipping-info"></div>
                     <div class="edit-btn-container">
                         <button>Edit</button>
                     </div>
                 </div>
                 <div class="payment-info-row">
                     <div class="row-title">Payment Information</div>
-                    <div class="payment-info">
-                        <p>Card Type</p>
-                        <p>Credit</p>
-                        <p>Card Number</p>
-                        <p>124412341234</p>
-                        <p>Expiration Date</p>
-                        <p>12/12/2005</p>
-                        <p>Security Code</p>
-                        <p>123</p>
-                    </div>
+                    <div class="payment-info"></div>
                     <div class="edit-btn-container">
                         <button>Edit</button>
                     </div>
@@ -229,6 +211,8 @@
         // Goes to product / cart page when items info edit btn is clicked
         const orderInfoBoxEl = document.querySelector('.order-info-box');
         const itemsInfoEl = document.querySelector('.items-info');
+        const shippingInfoEl = document.querySelector('.shipping-info');
+        const paymentInfoEl = document.querySelector('.payment-info');
         const domain = window.location.origin;
 
         const isAddressAndPaymentMethodAvailable = () => {
@@ -256,22 +240,37 @@
             }
         }
 
-        const renderHTML = () => {
-            if (!isAddressAndPaymentMethodAvailable()) {
-                window.location.href = `${domain}/customerinformationpage.html`;
-                return;
-            }
+        const renderShippingAddressBox = () => {
+            const shippingData = JSON.parse(localStorage.getItem('shippingAddress'));
 
-            const checkoutType = getCheckoutType();
-            if (checkoutType === null) {
-                history.back();
-                return;
-            }
+            shippingInfoEl.innerHTML = `
+                <p>Address</p>
+                <p>${shippingData.streetAddress}</p>
+                <p>City</p>
+                <p>${shippingData.city}</p>
+                <p>Country</p>
+                <p>${shippingData.country}</p>
+                <p>Post Code</p>
+                <p>${shippingData.postalCode}</p>
+            `;
+        }
 
-            // Add code to render HTML for payment info and shipping address
+        const renderPaymentInformation = () => {
+            const paymentDetails = JSON.parse(localStorage.getItem('paymentDetails'));
 
-            const storedData = JSON.parse(localStorage.getItem(checkoutType));
+            paymentInfoEl.innerHTML = `
+                <p>Card Type</p>
+                <p>${paymentDetails.cardType}</p>
+                <p>Card Number</p>
+                <p>${paymentDetails.cardNumber}</p>
+                <p>Expiration Date</p>
+                <p>${paymentDetails.expirationDate}</p>
+                <p>Security Code</p>
+                <p>${paymentDetails.securityCode}</p>
+            `;
+        }
 
+        const renderOrderedItems = (orderedItemsData) => {
             // Item grid headers
             itemsInfoEl.innerHTML = `
                 <div class="grid-headers">
@@ -283,7 +282,7 @@
             `;
 
             // Items Info Grid
-            itemsInfoEl.innerHTML += storedData.map(item => {
+            itemsInfoEl.innerHTML += orderedItemsData.map(item => {
                 const hrefLink = `productpage.html?category=${item.category}&id=${item.id}`;
                 return `
                     <div class="item-row">
@@ -296,15 +295,37 @@
                     </div>
                 `;
             }).join('');
+        }
 
-            const noOfItems = storedData.length;
-            const totalPrice = storedData.reduce((a, b) => a + (b.price * b.quantity), 0);
+        const renderOrderInfoBox = (orderedItemsData) => {
+            const noOfItems = orderedItemsData.length;
+            const totalPrice = orderedItemsData.reduce((a, b) => a + (b.price * b.quantity), 0);
+
             orderInfoBoxEl.innerHTML = `
                 <h1>Order</h1>
                 <h2>No. of Items: ${noOfItems}</h2>
                 <h2>Total Price: $${totalPrice.toFixed(2)}</h2>
                 <button class="place-order-btn">Place Order</button>
             `;
+        }
+
+        const renderHTML = () => {
+            if (!isAddressAndPaymentMethodAvailable()) {
+                window.location.href = `${domain}/customerinformationpage.html`;
+                return;
+            }
+
+            const checkoutType = getCheckoutType();
+            if (checkoutType === null) {
+                history.back();
+                return;
+            }
+            const storedData = JSON.parse(localStorage.getItem(checkoutType));
+
+            renderShippingAddressBox();
+            renderPaymentInformation();
+            renderOrderedItems(storedData);
+            renderOrderInfoBox(storedData);
         }
         renderHTML();
     </script>

@@ -1,11 +1,11 @@
 # TODOS
+- Keep shipping address and payment details in localstorage
+    - Remove it from localstorage after user places the order
+    - Keep it so that user can edit the data anytime they want
+        - Direct user to customerinformationpage again
+        - Take shipping address and payment details from localstorage if available
 - Add quantity field in product page
-- Change the connection of the checkout page
-    - Do not store the customer details in local storage
-    - When the user clicks 'buy now' or 'go to checkout'
-    - They are sent to the customer details page to fill in their details
-    - The data is store in localstorage when they 'Go To Checkout' in the page
-    - When the user goes to checkout page - the data is take from local storage and rendered into the page and then localstorage keys are cleared
+- Direct user to checkoutpage (with checkoutType) after submitting customer info data (not the product/cart page)
 - Make webpages look good on mobile, at end of project
 - Change layout of webpages on mobile
 - Keep common css in one file
@@ -14,3 +14,5 @@
 - Remove unnecessary elements, unused classes, reduce js codes
 - Reduce full project size to less than 20MB
 - Make note telling where to start the website from (homepage.html)
+- Add more descriptive comments and self-explanatory code
+- Ask aiya and chuti to test the website and check for errors
