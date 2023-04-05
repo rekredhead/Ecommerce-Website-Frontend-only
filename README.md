@@ -1,12 +1,9 @@
 # TODOS
-- Direct user to checkoutpage (with checkoutType) after submitting customer info data (not the product/cart page)
 - Make webpages look good on mobile, at end of project
 - Change layout of webpages on mobile
 - Keep common css in one file
 - Keep different css files for each webpages
 - Start optimizing the webpages for better performance - use Google Lighthouse
-- Remove unnecessary elements, unused classes, reduce js codes
-- Reduce full project size to less than 20MB
 - Make note telling where to start the website from (homepage.html)
 - Add more descriptive comments and self-explanatory code
 - Ask aiya and chuti to test the website and check for errors

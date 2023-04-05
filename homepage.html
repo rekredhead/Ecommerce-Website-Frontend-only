@@ -51,6 +51,7 @@
             border: 0.5em solid black;
             border-radius: 1em;
             overflow: hidden;
+            transition: transform 0.1s ease-in-out;
         }
         .category-title {
             display: flex;
@@ -66,14 +67,26 @@
             font-size: 2em;
             font-weight: bold;
         }
-        .category-image {
-            display: flex;
-            position: absolute;
-            width: 100%;
-            transition: 0.2s;
+        .food-category {
+            background-image: url('categoryFood.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
         }
-        .category-image:hover {
-            transform: scale(1.1);
+        .clothing-category {
+            background-image: url('categoryClothing.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        .electronics-category {
+            background-image: url('categoryElectronics.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        .category-button:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -88,23 +101,17 @@
     
     <div class="category-buttons">
         <a href="categorypage.html?category=food">
-            <div class="category-button">
-                <img class="category-image" src="categoryFood.png" alt="Food Category"/>
+            <div class="category-button food-category">
                 <div class="category-title">Food</div>
             </div>
         </a>
         <a href="categorypage.html?category=clothing">
-            <div class="category-button">
-                <img class="category-image" src="categoryClothing.png" alt="Clothing Category"/>
+            <div class="category-button clothing-category">
                 <div class="category-title">Clothing</div>
             </div>
         </a>
         <a href="categorypage.html?category=electronics">
-            <div class="category-button">
-                <img
-                    style="height: 100%;"
-                    class="category-image" src="categoryElectronicsImage.png"
-                    alt="Electronics Category"/>
+            <div class="category-button electronics-category">
                 <div class="category-title">Electronics</div>
             </div>
         </a>
