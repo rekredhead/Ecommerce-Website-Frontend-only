@@ -22,32 +22,40 @@
         .checkout-info > div {
             display: flex;
             justify-content: space-between;
-            gap: 0;
         }
 
         .row-title {
             display: flex;
             width: 7em;
-            padding: 0.5em;
+            padding: 1em 0.5em;
             word-wrap: break-word;
             text-align: center;
             font-weight: bold;
-            border: 0.1em solid black;
+            background-color: black;
+            color: white;
+            margin: 0.2em 0;
         }
 
         .shipping-info,
         .payment-info {
             display: grid;
             grid-template-columns: 6em 1fr;
-            width: 31.5em;
-            padding: 0 1em;
+            width: 31.6em;
+            padding: 0 1.2em 0 1em;
             border: 0.1em solid black;
+            margin: 0.2em 0.2em;
         }
         .shipping-info > p,
         .payment-info > p {
             display: flex;
             align-items: center;
             padding-left: 0.5em;
+        }
+        .items-info {
+            margin: 0.2em 0;
+        }
+        .info-key-para {
+            font-weight: bold;
         }
 
         .grid-headers {
@@ -60,7 +68,7 @@
         }
         .item-row {
             display: grid;
-            grid-template-columns: 9.33em 12.2em 6em 6em;
+            grid-template-columns: 9.33em 12.5em 6em 6em;
             grid-template-rows: 6em;
             border: 0.1em solid black;
         }
@@ -89,6 +97,7 @@
             width: 7em;
             padding: 0.5em;
             border: 0.1em solid black;
+            margin-left: 0.2em;
         }
         .edit-btn-container > button {
             width: 100%;
@@ -149,19 +158,19 @@
                 <div class="shipping-info-row">
                     <div class="row-title">Shipping Address</div>
                     <div class="shipping-info"></div>
-                    <div style="border-bottom: none;" class="edit-btn-container">
+                    <div style="border-bottom: none; margin-top: 0.2em;" class="edit-btn-container">
                         <button id="edit-customer-info-btn">Edit</button>
                     </div>
                 </div>
                 <div class="payment-info-row">
                     <div class="row-title">Payment Information</div>
                     <div class="payment-info"></div>
-                    <div style="border-top: none;" class="edit-btn-container"></div>
+                    <div style="border-top: none; margin-bottom: 0.2em;" class="edit-btn-container"></div>
                 </div>
                 <div class="items-info-row">
                     <div class="row-title">Ordered Items</div>
                     <div class="items-info"></div>
-                    <div class="edit-btn-container">
+                    <div style="margin: 0.2em 0;" class="edit-btn-container">
                         <button id="edit-ordered-items-btn">Edit</button>
                     </div>
                 </div>
@@ -210,13 +219,13 @@
             const shippingData = JSON.parse(localStorage.getItem('shippingAddress'));
 
             shippingInfoEl.innerHTML = `
-                <p>Address</p>
+                <p class="info-key-para">Address</p>
                 <p>${shippingData.streetAddress}</p>
-                <p>City</p>
+                <p class="info-key-para">City</p>
                 <p>${shippingData.city}</p>
-                <p>Country</p>
+                <p class="info-key-para">Country</p>
                 <p>${shippingData.country}</p>
-                <p>Post Code</p>
+                <p class="info-key-para">Post Code</p>
                 <p>${shippingData.postalCode}</p>
             `;
         }
@@ -225,13 +234,13 @@
             const paymentDetails = JSON.parse(localStorage.getItem('paymentDetails'));
 
             paymentInfoEl.innerHTML = `
-                <p>Card Type</p>
+                <p class="info-key-para">Card Type</p>
                 <p>${paymentDetails.cardType}</p>
-                <p>Card Number</p>
+                <p class="info-key-para">Card Number</p>
                 <p>${paymentDetails.cardNumber}</p>
-                <p>Expiration Date</p>
+                <p class="info-key-para">Expiration Date</p>
                 <p>${paymentDetails.expirationDate}</p>
-                <p>Security Code</p>
+                <p class="info-key-para">Security Code</p>
                 <p>${paymentDetails.securityCode}</p>
             `;
         }
