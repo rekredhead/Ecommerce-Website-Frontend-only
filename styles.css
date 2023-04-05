@@ -33,3 +33,11 @@ header {
     color: black;
     border: 0.1em solid black;
 }
+
+@media only screen and (max-width: 768px) {
+    header {
+        padding: 0 5vw;
+        gap: 1em;
+        z-index: 1;
+    }
+}
