@@ -113,6 +113,17 @@
         .edit-btn-container > button:active {
             opacity: 50%;
         }
+        .shipping-edit-btn {
+            border-bottom: none;
+            margin-top: 0.2em; 
+        }
+        .payment-edit-btn {
+            border-top: none;
+            margin-bottom: 0.2em;
+        }
+        .payment-edit-btn > button {
+            display: none;
+        }
 
         .order-info-box {
             display: flex;
@@ -140,6 +151,73 @@
         .place-order-btn:active {
             opacity: 50%;
         }
+
+        /**
+        Put border for all 3 boxes
+        Give edit button it's own box to separate from shipping and payment boxes*/
+        @media only screen and (max-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                flex-direction: column-reverse;
+                gap: 1em;
+                margin: 9em 0 0 0;
+                width: 85vw;
+            }
+            .checkout-info > div {
+                flex-direction: column;
+                border: 0.1em solid black;
+            }
+            .row-title {
+                margin: 0;
+                width: calc(100% - 1em);
+                justify-content: center;
+            }
+            
+            .shipping-info,
+            .payment-info {
+                margin: 0;
+                width: calc(100% - 2.2em);
+                border: none;
+            }
+            .shipping-edit-btn {
+                display: none;
+            }
+            .payment-edit-btn,
+            .edit-btn-container {
+                border: none;
+                border-top: 0.1em solid black;
+                margin: 0;
+                width: calc(100% - 1em);
+            }
+            .payment-edit-btn > button {
+                display: block;
+            }
+            .items-info-row {
+                overflow-x: hidden;
+                overflow-x: scroll;
+            }
+            .items-info-row > .row-title {
+                position: sticky;
+                left: 0;
+            }
+            .items-info-row > .edit-btn-container {
+                position: sticky;
+                left: 0;
+            }
+            .items-info {
+                margin: 0;
+                min-width: fit-content;
+            }
+
+            .order-info-box {
+                padding: 0 2em;
+                padding-bottom: 1em;
+                width: calc(100% - 4em);
+            }
+        }
     </style>
 </head>
 <body>
@@ -158,14 +236,16 @@
                 <div class="shipping-info-row">
                     <div class="row-title">Shipping Address</div>
                     <div class="shipping-info"></div>
-                    <div style="border-bottom: none; margin-top: 0.2em;" class="edit-btn-container">
-                        <button id="edit-customer-info-btn">Edit</button>
+                    <div class="edit-btn-container shipping-edit-btn">
+                        <button onclick="editCustomerInfo();">Edit</button>
                     </div>
                 </div>
                 <div class="payment-info-row">
                     <div class="row-title">Payment Information</div>
                     <div class="payment-info"></div>
-                    <div style="border-top: none; margin-bottom: 0.2em;" class="edit-btn-container"></div>
+                    <div class="edit-btn-container payment-edit-btn">
+                        <button onclick="editCustomerInfo();">Edit</button>
+                    </div>
                 </div>
                 <div class="items-info-row">
                     <div class="row-title">Ordered Items</div>
@@ -187,7 +267,6 @@
         const shippingInfoEl = document.querySelector('.shipping-info');
         const paymentInfoEl = document.querySelector('.payment-info');
         const editOrderedItemsBtn = document.getElementById('edit-ordered-items-btn');
-        const editCustomerInfoBtn = document.getElementById('edit-customer-info-btn');
         const domain = window.location.origin;
 
         const isAddressAndPaymentMethodAvailable = () => {
@@ -321,7 +400,7 @@
             }
         });
 
-        editCustomerInfoBtn.addEventListener('click', () => {
+        const editCustomerInfo = () => {
             const checkoutType = getCheckoutType();
             if (checkoutType === null) {
                 history.back();
@@ -330,7 +409,7 @@
 
             localStorage.setItem('checkoutType', checkoutType);
             window.location.href = `${domain}/customerinformationpage.html`;
-        });
+        };
 
         const placeOrder = () => {
             const checkoutType = getCheckoutType();
