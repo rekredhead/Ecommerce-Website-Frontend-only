@@ -52,6 +52,10 @@
         .item-image:hover {
             transform: scale(1.1);
         }
+        p {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -110,7 +114,7 @@
                         <img class="item-image" src="${item.image}" alt="${item.title}"/>
                         <div class="item-info">
                             <div class="item-name">${item.title}</div>
-                            <h3 style="color: greenyellow">$${item.price}</h3>
+                            <p style="color: greenyellow">$${item.price}</p>
                         </div>
                     </div>
                 </a>
