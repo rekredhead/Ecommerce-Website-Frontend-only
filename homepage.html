@@ -39,7 +39,7 @@
 
         .category-buttons {
             display: flex;
-            margin: 8em 3em 0 3em;
+            margin: 9em 3em 0 3em;
             justify-content: space-between;
         }
         .category-button {
@@ -87,6 +87,30 @@
         }
         .category-button:hover {
             transform: scale(1.05);
+        }
+
+        @media only screen and (max-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+            }
+            .cart-btn {
+                z-index: 1;
+            }
+            .category-buttons {
+                flex-direction: column;
+                margin: 10vh 0;
+                gap: 1em;
+            }
+            .category-button {
+                width: 85vw;
+                height: 40vh;
+            }
+            .category-title {
+                top: auto;
+                bottom: 0;
+                height: 20%;
+            }
         }
     </style>
 </head>
