@@ -242,9 +242,13 @@
         renderHTML();
 
         const getProductDataForPurchase = () => {
-            // No need to check if data is null again since it is already validated
-            const categoryAndProductId = getCategoryAndProductId();
             const productData = getProductData();
+            if (productData === null) {
+                history.back();
+                return null;
+            }
+
+            const categoryAndProductId = getCategoryAndProductId();
             const category = categoryAndProductId.category;
             const id = categoryAndProductId.id;
             const quantity = productQuantityEl.value.replaceAll(" ", "");

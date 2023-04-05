@@ -71,12 +71,13 @@
         const itemsContainer = document.querySelector('.items');
 
         const getCategory = () => {
-            const query = window.location.search.substring(1);
-            const queryArr = query.split('=');
+            const param = window.location.search.substring(1);
+            const paramArr = param.split('=');
             let category = '';
 
-            if (queryArr[0] in itemsData) {
-                category = queryArr[1].trim();
+            const isParamKeyValid = paramArr[0] in itemsData;
+            if (isParamKeyValid) {
+                category = paramArr[1].trim();
 
                 if (category in itemsData.category) {
                     return category;

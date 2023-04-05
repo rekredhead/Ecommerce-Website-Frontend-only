@@ -299,7 +299,7 @@
             return true;
         }
 
-        // Validate the fields before the field being focused on
+        // When a field is being focused on, validate the all the fields before the current field
         document.querySelectorAll('input').forEach((input, index) => {
             input.addEventListener('focus', () => {
                 if (!isDataValid(index)) {

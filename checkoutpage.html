@@ -186,11 +186,11 @@
         }
         
         const getCheckoutType = () => {
-            const query = window.location.search.substring(1);
-            const queryArr = query.split('=');
+            const param = window.location.search.substring(1);
+            const paramArr = param.split('=');
             
-            if (queryArr[0] === 'checkoutType') {
-                const checkoutType = queryArr[1].trim();
+            if (paramArr[0] === 'checkoutType') {
+                const checkoutType = paramArr[1].trim();
 
                 if (checkoutType === 'cart' || checkoutType === 'product') {
                     return checkoutType;
@@ -296,7 +296,11 @@
         renderHTML();
 
         editOrderedItemsBtn.addEventListener('click', () => {
-            const checkoutType = getCheckoutType(); // Checkout type is already validated - no need to re-validate
+            const checkoutType = getCheckoutType();
+            if (checkoutType === null) {
+                history.back();
+                return;
+            }
 
             if (checkoutType === 'cart') {
                 window.location.href = `${domain}/cartpage.html`;
@@ -308,8 +312,12 @@
 
         editCustomerInfoBtn.addEventListener('click', () => {
             const checkoutType = getCheckoutType();
+            if (checkoutType === null) {
+                history.back();
+                return;
+            }
+
             localStorage.setItem('checkoutType', checkoutType);
-            
             window.location.href = `${domain}/customerinformationpage.html`;
         });
 
