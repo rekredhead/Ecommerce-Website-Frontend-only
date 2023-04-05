@@ -14,15 +14,16 @@
             flex-direction: column;
             gap: 1em;
             align-items: center;
-            min-width: 30em;
+            width: 33em;
             margin-top: 9em;
+            margin-bottom: 1em;
         }
         .shipping-info-box,
         .payment-info-box {
             display: flex;
             flex-direction: column;
             gap: 1.3em;
-            min-width: 28em;
+            width: 28em;
             background-color: black;
             color: white;
             border-radius: 0.5em;
@@ -70,6 +71,24 @@
         .confirm-info-btn:active,
         .clear-all-btn:active {
             opacity: 50%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .container {
+                width: 85vw;
+            }
+            .shipping-info-box,
+            .payment-info-box {
+                width: 74.4vw;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .shipping-info-box,
+            .payment-info-box {
+                width: 72.4vw;
+                padding: 2.5em 2em 2.5em 1em;
+            }
         }
     </style>
 </head>
