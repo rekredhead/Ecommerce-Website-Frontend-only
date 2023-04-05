@@ -56,6 +56,7 @@
         .product-desc {
             padding: 0.5em 1.2em;
             font-size: 1.2em;
+            text-align: justify;
         }
         .product-quantity-container {
             padding: 0 1.5em;
@@ -105,6 +106,39 @@
         }
         .interaction-buttons > button:active {
             opacity: 50%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 9em;
+                margin-bottom: 2em;
+                width: 100vw;
+                gap: 1em;
+            }
+            
+            .product-data {
+                flex-direction: column;
+                align-items: center;
+            }
+            .product-image-container {
+                width: 99%;
+                height: 50vw;
+            }
+            .product-info {
+                width: 80vw;
+                padding: 1em 0.5em;
+                gap: 0;
+            }
+
+            .interaction-buttons {
+                width: 100%;
+            }
         }
     </style>
 </head>
