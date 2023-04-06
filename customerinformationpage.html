@@ -179,7 +179,7 @@
             return /^[0-9]+$/i.test(value);
         }
         const containsInvalidSymbols = (value) => {
-            return /[^/-.,\w\s]/g.test(value);
+            return /[^-.,\w\s/\\]/g.test(value);
         }
         const removeSpaces = (value) => {
             return value.replaceAll(" ", "");
