@@ -179,7 +179,7 @@
             return /^[0-9]+$/i.test(value);
         }
         const containsInvalidSymbols = (value) => {
-            return /[^-.,\w\s]/g.test(value);
+            return /[^/-.,\w\s]/g.test(value);
         }
         const removeSpaces = (value) => {
             return value.replaceAll(" ", "");
@@ -208,7 +208,7 @@
             return true;
         }
         const isCityValid = () => {
-            const city = removeSpaces(cityEl.value);
+            const city = cityEl.value.trim();
 
             if (city === "") {
                 alert("Please fill in your city");
@@ -221,7 +221,7 @@
             return true;
         }
         const isCountry = () => {
-            const country = removeSpaces(countryEl.value);
+            const country = countryEl.value.trim();
 
             if (country === "") {
                 alert("Please fill in your country");
