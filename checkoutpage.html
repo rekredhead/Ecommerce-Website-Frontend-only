@@ -153,16 +153,6 @@
         }
         
         @media only screen and (max-width: 768px) {
-            body {
-                display: flex;
-                justify-content: center;
-            }
-            .container {
-                flex-direction: column-reverse;
-                gap: 1em;
-                margin: 9em 0 0 0;
-                width: 85vw;
-            }
             .checkout-info > div {
                 flex-direction: column;
                 border: 0.1em solid black;
@@ -178,6 +168,10 @@
                 margin: 0;
                 width: calc(100% - 2.2em);
                 border: none;
+            }
+            .shipping-info > p:not(.info-key-para),
+            .payment-info > p:not(.info-key-para) {
+                width: 45vw;
             }
             .shipping-edit-btn {
                 display: none;
@@ -196,17 +190,53 @@
                 overflow-x: hidden;
                 overflow-x: scroll;
             }
-            .items-info-row > .row-title {
+            .items-info-row > .row-title,
+            .shipping-info-row > .row-title,
+            .payment-info-row > .row-title {
                 position: sticky;
                 left: 0;
+                width: calc(100% - 1em);
             }
-            .items-info-row > .edit-btn-container {
+            .items-info-row > .edit-btn-container,
+            .payment-info-row > .edit-btn-container {
                 position: sticky;
                 left: 0;
+                width: calc(100% - 1em);
             }
             .items-info {
                 margin: 0;
                 min-width: fit-content;
+            }
+
+            .order-info-box {
+                font-size: 85%;
+            }
+        }
+        @media only screen and (max-width: 1430px) {
+            body {
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                flex-direction: column-reverse;
+                gap: 1em;
+                margin: 9em 0 0 0;
+                width: 85vw;
+            }
+            .checkout-info > div {
+                justify-content: center;
+            }
+            .row-title {
+                width: 10em;
+            }
+            .shipping-info,
+            .payment-info,
+            .items-info {
+                width: 90vw;
+                margin: none 0;
+            }
+            .edit-btn-container {
+                width: 10em;
             }
 
             .order-info-box {
