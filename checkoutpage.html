@@ -315,7 +315,7 @@
                 <p class="info-key-para">Card Number</p>
                 <p>${paymentDetails.cardNumber}</p>
                 <p class="info-key-para">Expiration Date</p>
-                <p>${paymentDetails.expirationDate}</p>
+                <p>${paymentDetails.expirationDate.slice(0, 7)}</p>
                 <p class="info-key-para">Security Code</p>
                 <p>${paymentDetails.securityCode}</p>
             `;
