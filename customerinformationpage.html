@@ -193,9 +193,14 @@
 
             return isCreditCardType ? 'credit' : isDebitCardType ? 'debit' : 'invalid';
         }
+        const getExpirationDateWithoutDays = (dateString) => {
+            const date = new Date(dateString);
+            date.setDate(1);
+            return date;
+        }
 
         const isStreetAddressValid = () => {
-            const streetAddress = streetAddressEl.value.trim();
+            const streetAddress = removeSpaces(streetAddressEl.value);
 
             if (streetAddress === "") {
                 alert("Please fill in your street address");
@@ -208,7 +213,7 @@
             return true;
         }
         const isCityValid = () => {
-            const city = cityEl.value.trim();
+            const city = removeSpaces(cityEl.value);
 
             if (city === "") {
                 alert("Please fill in your city");
@@ -220,8 +225,8 @@
 
             return true;
         }
-        const isCountry = () => {
-            const country = countryEl.value.trim();
+        const isCountryValid = () => {
+            const country = removeSpaces(countryEl.value);
 
             if (country === "") {
                 alert("Please fill in your country");
@@ -274,7 +279,7 @@
         }
         const isExpirationDateValid = () => {
             const expirationDate = expirationDateEl.value;
-            const isCardExpired = new Date(expirationDate) <= new Date();
+            const isCardExpired = getExpirationDateWithoutDays(expirationDate) < new Date();
 
             if (expirationDate === "") {
                 alert("Please fill in your card expiration date");
@@ -305,7 +310,7 @@
 
         const validatedInputs = [
             isStreetAddressValid, isCityValid,
-            isCountry, isPostalCodeValid,
+            isCountryValid, isPostalCodeValid,
             isCardTypeValid, isCardNumberValid,
             isExpirationDateValid, isSecurityCodeValid
         ];
@@ -333,8 +338,8 @@
             
             const shippingAddress = {
                 streetAddress: streetAddressEl.value.trim(),
-                city: removeSpaces(cityEl.value),
-                country: removeSpaces(countryEl.value),
+                city: cityEl.value.trim(),
+                country: countryEl.value.trim(),
                 postalCode: removeSpaces(postalCodeEl.value)
             };
             const paymentDetails = {
