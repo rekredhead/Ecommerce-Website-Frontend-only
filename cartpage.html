@@ -118,7 +118,15 @@
             opacity: 50%;
         }
 
-        @media only screen and (max-width: 768px) {
+        @media only screen and (max-width: 1070px) {
+            .column-1 {
+                overflow: hidden;
+                overflow: scroll;
+                border: 0.1em solid black;
+                padding-bottom: 0.5em;
+            }
+        }
+        @media only screen and (max-width: 1655px) {
             body {
                 display: flex;
                 justify-content: center;
@@ -129,13 +137,6 @@
                 margin: 9em 0 1em 0;
                 width: 85vw;
             }
-            .column-1 {
-                overflow: hidden;
-                overflow: scroll;
-                border: 0.1em solid black;
-                padding-bottom: 0.5em;
-            }
-
             .cart-info-box {
                 padding: 1em 2em;
                 width: calc(100% - 4em);
