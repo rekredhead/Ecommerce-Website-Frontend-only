@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Ecommerce Website - Checkout</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 9em 10em 0 10em;
+        }
+
+        .checkout-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .checkout-info > div {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .row-title {
+            display: flex;
+            width: 7em;
+            padding: 1em 0.5em;
+            word-wrap: break-word;
+            text-align: center;
+            font-weight: bold;
+            background-color: black;
+            color: white;
+            margin: 0.2em 0;
+        }
+
+        .shipping-info,
+        .payment-info {
+            display: grid;
+            grid-template-columns: 6em 1fr;
+            width: 31.6em;
+            padding: 0 1.2em 0 1em;
+            border: 0.1em solid black;
+            margin: 0.2em 0.2em;
+        }
+        .shipping-info > p,
+        .payment-info > p {
+            display: flex;
+            align-items: center;
+            padding-left: 0.5em;
+        }
+        .items-info {
+            margin: 0.2em 0;
+        }
+        .info-key-para {
+            font-weight: bold;
+        }
+
+        .grid-headers {
+            display: grid;
+            grid-template-columns: 9.33em 12.2em 6em 6em;
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+        .item-row {
+            display: grid;
+            grid-template-columns: 9.33em 12.5em 6em 6em;
+            grid-template-rows: 6em;
+            border: 0.1em solid black;
+        }
+        .item-row > div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5em;
+            word-wrap: break-word;
+        }
+
+        .item-image-container {
+            position: relative;
+            overflow: hidden;
+            border: 0.1em solid black;
+            margin: 0.1em;
+        }
+        .item-image-container img {
+            display: flex;
+            position: absolute;
+            width: 100%;
+        }
+
+        .edit-btn-container {
+            display: flex;
+            width: 7em;
+            padding: 0.5em;
+            border: 0.1em solid black;
+            margin-left: 0.2em;
+        }
+        .edit-btn-container > button {
+            width: 100%;
+            height: 2em;
+            background-color: rgb(0, 110, 255);
+            border: none;
+            color: white;
+            font-size: 1.5em;
+        }
+        .edit-btn-container > button:hover {
+            background-color: rgb(0, 66, 153);
+        }
+        .edit-btn-container > button:active {
+            opacity: 50%;
+        }
+        .shipping-edit-btn {
+            border-bottom: none;
+            margin-top: 0.2em; 
+        }
+        .payment-edit-btn {
+            border-top: none;
+            margin-bottom: 0.2em;
+        }
+        .payment-edit-btn > button {
+            display: none;
+        }
+
+        .order-info-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            height: 19em;
+            width: 15em;
+            padding: 0 1em;
+            background-color: black;
+            color: white;
+            border-radius: 0.5em;
+        }
+        .place-order-btn {
+            height: 1.8em;
+            font-size: 1.4em;
+            background-color: transparent;
+            border: 0.1em solid rgb(0, 110, 255);
+            color: rgb(0, 110, 255);
+            transition: 0.1s;
+        }
+        .place-order-btn:hover {
+            background-color: rgb(0, 110, 255);
+            color: white;
+        }
+        .place-order-btn:active {
+            opacity: 50%;
+        }
+        
+        @media only screen and (max-width: 768px) {
+            .checkout-info > div {
+                flex-direction: column;
+                border: 0.1em solid black;
+            }
+            .row-title {
+                margin: 0;
+                width: calc(100% - 1em);
+                justify-content: center;
+            }
+            
+            .shipping-info,
+            .payment-info {
+                margin: 0;
+                width: calc(100% - 2.2em);
+                border: none;
+            }
+            .shipping-info > p:not(.info-key-para),
+            .payment-info > p:not(.info-key-para) {
+                width: 45vw;
+            }
+            .shipping-edit-btn {
+                display: none;
+            }
+            .payment-edit-btn,
+            .edit-btn-container {
+                border: none;
+                border-top: 0.1em solid black;
+                margin: 0;
+                width: calc(100% - 1em);
+            }
+            .payment-edit-btn > button {
+                display: block;
+            }
+            .items-info-row {
+                overflow-x: hidden;
+                overflow-x: scroll;
+            }
+            .items-info-row > .row-title,
+            .shipping-info-row > .row-title,
+            .payment-info-row > .row-title {
+                position: sticky;
+                left: 0;
+                width: calc(100% - 1em);
+            }
+            .items-info-row > .edit-btn-container,
+            .payment-info-row > .edit-btn-container {
+                position: sticky;
+                left: 0;
+                width: calc(100% - 1em);
+            }
+            .items-info {
+                margin: 0;
+                min-width: fit-content;
+            }
+
+            .order-info-box {
+                font-size: 85%;
+            }
+        }
+        @media only screen and (max-width: 1430px) {
+            body {
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                flex-direction: column-reverse;
+                gap: 1em;
+                margin: 9em 0 0 0;
+                width: 85vw;
+            }
+            .checkout-info > div {
+                justify-content: center;
+            }
+            .row-title {
+                width: 10em;
+            }
+            .shipping-info,
+            .payment-info,
+            .items-info {
+                width: 90vw;
+                margin: none 0;
+            }
+            .edit-btn-container {
+                width: 10em;
+            }
+
+            .order-info-box {
+                padding: 0 2em;
+                padding-bottom: 1em;
+                width: calc(100% - 4em);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button title="Go Back" onclick="history.back();" class="back-button">
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span>
+        </button>
+        <h1 class="category-title">Checkout</h1>
+        <a href="homepage.html" title="Home Page" class="homepage-link">
+            <span class="material-symbols-outlined">
+                home
+            </span>
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="column-1">
+            <div class="checkout-info">
+                <div class="shipping-info-row">
+                    <div class="row-title">Shipping Address</div>
+                    <div class="shipping-info"></div>
+                    <div class="edit-btn-container shipping-edit-btn">
+                        <button onclick="editCustomerInfo();">Edit</button>
+                    </div>
+                </div>
+                <div class="payment-info-row">
+                    <div class="row-title">Payment Information</div>
+                    <div class="payment-info"></div>
+                    <div class="edit-btn-container payment-edit-btn">
+                        <button onclick="editCustomerInfo();">Edit</button>
+                    </div>
+                </div>
+                <div class="items-info-row">
+                    <div class="row-title">Ordered Items</div>
+                    <div class="items-info"></div>
+                    <div style="margin: 0.2em 0;" class="edit-btn-container">
+                        <button id="edit-ordered-items-btn">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column-2">
+            <div class="order-info-box"></div>
+        </div>
+    </div>
+
+    <script>
+        const orderInfoBoxEl = document.querySelector('.order-info-box');
+        const itemsInfoEl = document.querySelector('.items-info');
+        const shippingInfoEl = document.querySelector('.shipping-info');
+        const paymentInfoEl = document.querySelector('.payment-info');
+        const editOrderedItemsBtn = document.getElementById('edit-ordered-items-btn');
+        const pageLink = window.location.href;
+        const directoryPath = pageLink.substring(0, pageLink.lastIndexOf('/'));
+
+        const isAddressAndPaymentMethodAvailable = () => {
+            const paymentDetailsNotAvailable = localStorage.getItem('paymentDetails') === null;
+            const shippingAddressNotAvailable = localStorage.getItem('shippingAddress') === null;
+            return !(paymentDetailsNotAvailable || shippingAddressNotAvailable);
+        }
+        
+        const getCheckoutType = () => {
+            const param = window.location.search.substring(1);
+            const paramArr = param.split('=');
+            
+            if (paramArr[0] === 'checkoutType') {
+                const checkoutType = paramArr[1].trim();
+
+                if (checkoutType === 'cart' || checkoutType === 'product') {
+                    return checkoutType;
+                } else {
+                    alert("Please select a valid checkout type");
+                    return null;
+                }
+            } else {
+                alert("Please select a valid parameter");
+                return null;
+            }
+        }
+
+        const renderShippingAddressBox = () => {
+            const shippingData = JSON.parse(localStorage.getItem('shippingAddress'));
+
+            shippingInfoEl.innerHTML = `
+                <p class="info-key-para">Address</p>
+                <p>${shippingData.streetAddress}</p>
+                <p class="info-key-para">City</p>
+                <p>${shippingData.city}</p>
+                <p class="info-key-para">Country</p>
+                <p>${shippingData.country}</p>
+                <p class="info-key-para">Post Code</p>
+                <p>${shippingData.postalCode}</p>
+            `;
+        }
+
+        const renderPaymentInformation = () => {
+            const paymentDetails = JSON.parse(localStorage.getItem('paymentDetails'));
+
+            paymentInfoEl.innerHTML = `
+                <p class="info-key-para">Card Type</p>
+                <p>${paymentDetails.cardType}</p>
+                <p class="info-key-para">Card Number</p>
+                <p>${paymentDetails.cardNumber}</p>
+                <p class="info-key-para">Expiration Date</p>
+                <p>${paymentDetails.expirationDate.slice(0, 7)}</p>
+                <p class="info-key-para">Security Code</p>
+                <p>${paymentDetails.securityCode}</p>
+            `;
+        }
+
+        const renderOrderedItems = (orderedItemsData) => {
+            // Item grid headers
+            itemsInfoEl.innerHTML = `
+                <div class="grid-headers">
+                    <p>Preview</p>
+                    <p>Title</p>
+                    <p>Price</p>
+                    <p>Quantity</p>
+                </div>
+            `;
+
+            // Items Info Grid
+            itemsInfoEl.innerHTML += orderedItemsData.map(item => {
+                const hrefLink = `productpage.html?category=${item.category}&id=${item.id}`;
+                return `
+                    <div class="item-row">
+                        <a class="item-image-container" href="${hrefLink}">
+                            <img src="${item.image}" alt="${item.title}"/>
+                        </a>
+                        <div class="item-title">${item.title}</div>
+                        <div class="item-price">$${item.price}</div>
+                        <div class="item-quantity">${item.quantity}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        const renderOrderInfoBox = (orderedItemsData) => {
+            const noOfItems = orderedItemsData.length;
+            const totalPrice = orderedItemsData.reduce((a, b) => a + (b.price * b.quantity), 0);
+
+            orderInfoBoxEl.innerHTML = `
+                <h1>Order</h1>
+                <h2>No. of Items: ${noOfItems}</h2>
+                <h2>Total Price: $${totalPrice.toFixed(2)}</h2>
+                <button onclick="placeOrder()" class="place-order-btn">Place Order</button>
+            `;
+        }
+
+        const renderHTML = () => {
+            const checkoutType = getCheckoutType();
+
+            if (!isAddressAndPaymentMethodAvailable()) {
+                localStorage.setItem('checkoutType', checkoutType);
+                window.location.href = `${directoryPath}/customerinformationpage.html`;
+                return;
+            }
+
+            if (checkoutType === null) {
+                history.back();
+                return;
+            }
+            const storedData = JSON.parse(localStorage.getItem(checkoutType));
+
+            renderShippingAddressBox();
+            renderPaymentInformation();
+            renderOrderedItems(storedData);
+            renderOrderInfoBox(storedData);
+        }
+        renderHTML();
+
+        editOrderedItemsBtn.addEventListener('click', () => {
+            const checkoutType = getCheckoutType();
+            if (checkoutType === null) {
+                history.back();
+                return;
+            }
+
+            if (checkoutType === 'cart') {
+                window.location.href = `${directoryPath}/cartpage.html`;
+            } else if (checkoutType === 'product') {
+                const { id, category} = JSON.parse(localStorage.getItem(checkoutType))[0];
+                window.location.href = `${directoryPath}/productpage.html?category=${category}&id=${id}`;
+            }
+        });
+
+        const editCustomerInfo = () => {
+            const checkoutType = getCheckoutType();
+            if (checkoutType === null) {
+                history.back();
+                return;
+            }
+
+            localStorage.setItem('checkoutType', checkoutType);
+            window.location.href = `${directoryPath}/customerinformationpage.html`;
+        };
+
+        const placeOrder = () => {
+            const checkoutType = getCheckoutType();
+
+            // Remove sensitive data after placing order - security
+            localStorage.removeItem(checkoutType);
+            localStorage.removeItem('shippingAddress');
+            localStorage.removeItem('paymentDetails');
+
+            window.location.href = `${directoryPath}/thankyouforpurchasepage.html`;
+        }
+    </script>
+</body>
+</html>

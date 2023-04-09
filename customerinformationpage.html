@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Ecommerce Website - Customer Information</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            align-items: center;
+            width: 33em;
+            margin-top: 9em;
+            margin-bottom: 1em;
+        }
+        .shipping-info-box,
+        .payment-info-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1.3em;
+            width: 28em;
+            background-color: black;
+            color: white;
+            border-radius: 0.5em;
+            padding: 2.5em 3em 2.5em 2em;
+        }
+        .city-and-country-container,
+        .card-type-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 0.5em;
+            width: 103%;
+        }
+        input[type=text],
+        input[type=date] {
+            width: 100%;
+            font-size: 0.9em;
+            padding: 0.6em 0.5em;
+            background-color: rgb(61, 61, 61);
+            color: white;
+            border: none;
+            border-radius: 0.3em;
+        }
+        input[type=radio] {
+            margin: 0 0.5em;
+        }
+        h2 {
+            margin: 0;
+            margin-bottom: 0.5em;
+        }
+        .confirm-info-btn,
+        .clear-all-btn {
+            width: 100%;
+            height: 2em;
+            background-color: rgb(0, 110, 255);
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            border-radius: 0.5em;
+        }
+        .confirm-info-btn:hover,
+        .clear-all-btn:hover {
+            background-color: rgb(0, 66, 153);
+        }
+        .confirm-info-btn:active,
+        .clear-all-btn:active {
+            opacity: 50%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .container {
+                width: 85vw;
+            }
+            .shipping-info-box,
+            .payment-info-box {
+                width: 74.4vw;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .shipping-info-box,
+            .payment-info-box {
+                width: 72.4vw;
+                padding: 2.5em 2em 2.5em 1em;
+            }
+        }
+    </style>
+</head>
+<body style="display: flex; justify-content: center;">
+    <header>
+        <button title="Go Back" onclick="history.back();" class="back-button">
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span>
+        </button>
+        <h1 class="category-title">Payment and Shipping Details</h1>
+    </header>
+    
+    <div class="container">
+        <div class="shipping-info-box">
+            <h2>Shipping Address</h2>
+            <input id="street-address-el" type="text" placeholder="Street Address">
+            <div class="city-and-country-container">
+                <input id="city-el" type="text" placeholder="City">
+                <input id="country-el" type="text" placeholder="Country">
+            </div>
+            <input id="postal-code-el" type="text" placeholder="Postal Code">
+        </div>
+        <div class="payment-info-box">
+            <h2>Payment Information</h2>
+            <div class="card-type-container">
+                <label><input type="radio" name="card-type" id="radio-credit-card-type" value="credit">Credit Card</label>
+                <label><input type="radio" name="card-type" id="radio-debit-card-type" value="debit">Debit Card</label>
+            </div>
+            <div>
+                <p>Card Number</p>
+                <input id="card-number-el" type="text" placeholder="e.g.: 1234 1234 1234 1234">
+            </div>
+            <div>
+                <p>Expiration Date</p>
+                <input id="exp-date-el" type="date">
+            </div>
+            <div>
+                <p>Security Code</p>
+                <input id="security-code-el" type="text" placeholder="e.g.: 123">
+            </div>
+        </div>
+        <button class="confirm-info-btn">Save Details</button>
+        <button class="clear-all-btn">Clear All</button>
+    </div>
+
+    <script>
+        const streetAddressEl   = document.getElementById("street-address-el")
+        const cityEl            = document.getElementById("city-el")
+        const countryEl         = document.getElementById("country-el")
+        const postalCodeEl      = document.getElementById("postal-code-el")
+        const radioCreditCardEl = document.getElementById("radio-credit-card-type");
+        const radioDebitCardEl  = document.getElementById("radio-debit-card-type");
+        const cardNumberEl      = document.getElementById("card-number-el")
+        const expirationDateEl  = document.getElementById("exp-date-el")
+        const securityCodeEl    = document.getElementById("security-code-el")
+
+        const saveDetailsBtn    = document.querySelector(".confirm-info-btn");
+        const clearAllBtn       = document.querySelector(".clear-all-btn");
+
+        const renderExistingDataToHTML = () => {
+            const shippingAddress = JSON.parse(localStorage.getItem('shippingAddress'));
+            const paymentDetails = JSON.parse(localStorage.getItem('paymentDetails'));
+
+            if (shippingAddress === null || paymentDetails === null) return;
+            
+            streetAddressEl.value = shippingAddress.streetAddress;
+            cityEl.value = shippingAddress.city;
+            countryEl.value = shippingAddress.country;
+            postalCodeEl.value = shippingAddress.postalCode;
+            cardNumberEl.value = paymentDetails.cardNumber;
+            expirationDateEl.value = paymentDetails.expirationDate;
+            securityCodeEl.value = paymentDetails.securityCode;
+
+            const cardType = paymentDetails.cardType;
+            if (cardType === 'credit') {
+                radioCreditCardEl.checked = true;
+            } else if (cardType === 'debit') {
+                radioDebitCardEl.checked = true;
+            }
+        }
+        renderExistingDataToHTML();
+
+        const hasLettersOnly = (value) => {
+            return /^[a-z]+$/i.test(value);
+        }
+        const hasNumbersOnly = (value) => {
+            return /^[0-9]+$/i.test(value);
+        }
+        const containsInvalidSymbols = (value) => {
+            return /[^-.,\w\s/\\]/g.test(value);
+        }
+        const removeSpaces = (value) => {
+            return value.replaceAll(" ", "");
+        }
+
+        const getCardType = () => {
+            const isCreditCardType =
+                radioCreditCardEl.checked && !radioDebitCardEl.checked;
+            const isDebitCardType =
+                !radioCreditCardEl.checked && radioDebitCardEl.checked;
+
+            return isCreditCardType ? 'credit' : isDebitCardType ? 'debit' : 'invalid';
+        }
+        const getExpirationDateWithoutDays = (dateString) => {
+            const date = new Date(dateString);
+            date.setDate(1);
+            return date;
+        }
+
+        const isStreetAddressValid = () => {
+            const streetAddress = removeSpaces(streetAddressEl.value);
+
+            if (streetAddress === "") {
+                alert("Please fill in your street address");
+                return false;
+            } else if (containsInvalidSymbols(streetAddress)) {
+                alert("Please do not add invalid symbols in the street address");
+                return false;
+            }
+
+            return true;
+        }
+        const isCityValid = () => {
+            const city = removeSpaces(cityEl.value);
+
+            if (city === "") {
+                alert("Please fill in your city");
+                return false;
+            } else if (!hasLettersOnly(city)) {
+                alert("Please enter letters only for your city");
+                return false;
+            }
+
+            return true;
+        }
+        const isCountryValid = () => {
+            const country = removeSpaces(countryEl.value);
+
+            if (country === "") {
+                alert("Please fill in your country");
+                return false;
+            } else if (!hasLettersOnly(country)) {
+                alert("Please enter letters only for your country");
+                return false;
+            }
+
+            return true;
+        }
+        const isPostalCodeValid = () => {
+            const postalCode = removeSpaces(postalCodeEl.value);
+
+            if (postalCode === "") {
+                alert("Please fill in your postal code");
+                return false;
+            } else if (containsInvalidSymbols(postalCode)) {
+                alert("Please do not add invalid symbols in your postal code");
+                return false;
+            }
+
+            return true;
+        }
+        const isCardTypeValid = () => {
+            const cardType = getCardType();
+
+            if (cardType === 'invalid') {
+                alert("Please select a Card Type");
+                return false;
+            }
+            
+            return true;
+        }
+        const isCardNumberValid = () => {
+            const cardNumber = removeSpaces(cardNumberEl.value);
+
+            if (cardNumber === "") {
+                alert("Please fill in your card number");
+                return false;
+            } else if (!hasNumbersOnly(cardNumber)) {
+                alert("Please enter only numbers for your card number");
+                return false;
+            } else if (cardNumber.length < 14 || cardNumber.length > 16) {
+                alert("Please enter a valid card number");
+                return false;
+            }
+
+            return true;
+        }
+        const isExpirationDateValid = () => {
+            const expirationDate = expirationDateEl.value;
+            const isCardExpired = getExpirationDateWithoutDays(expirationDate) < new Date();
+
+            if (expirationDate === "") {
+                alert("Please fill in your card expiration date");
+                return false;
+            } else if (isCardExpired) {
+                alert("Card has already expired. Please use a non-expired card");
+                return false;
+            }
+
+            return true;
+        }
+        const isSecurityCodeValid = () => {
+            const securityCode = removeSpaces(securityCodeEl.value);
+
+            if (securityCode === "") {
+                alert("Please fill in the security code for your card");
+                return false;
+            } else if (!hasNumbersOnly(securityCode)) {
+                alert("Please enter numbers only for the card security code");
+                return false;
+            } else if (securityCode.length !== 3) {
+                alert("Security Code must be 3 digits");
+                return false;
+            }
+
+            return true;
+        }
+
+        const validatedInputs = [
+            isStreetAddressValid, isCityValid,
+            isCountryValid, isPostalCodeValid,
+            isCardTypeValid, isCardNumberValid,
+            isExpirationDateValid, isSecurityCodeValid
+        ];
+
+        const isDataValid = (index) => {
+            if (index > 4) index--;
+            for (let i = 0; i < index; i++) {
+                if (!validatedInputs[i]()) return false;
+            }
+            return true;
+        }
+
+        // When a field is being focused on, validate the all the fields before the current field
+        document.querySelectorAll('input').forEach((input, index) => {
+            input.addEventListener('focus', () => {
+                if (!isDataValid(index)) {
+                    input.blur(); // Remove focus
+                }
+            });
+        });
+
+        saveDetailsBtn.addEventListener('click', () => {
+            const inputFieldsCount = document.querySelectorAll('input').length;
+            if (!isDataValid(inputFieldsCount)) return;
+            
+            const shippingAddress = {
+                streetAddress: streetAddressEl.value.trim(),
+                city: cityEl.value.trim(),
+                country: countryEl.value.trim(),
+                postalCode: removeSpaces(postalCodeEl.value)
+            };
+            const paymentDetails = {
+                cardType: getCardType(),
+                cardNumber: removeSpaces(cardNumberEl.value),
+                expirationDate: expirationDateEl.value,
+                securityCode: removeSpaces(securityCodeEl.value)
+            };
+
+            localStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
+            localStorage.setItem('paymentDetails', JSON.stringify(paymentDetails));
+
+            // Set the correct parameter when redirecting user to the checkoutpage
+            const pageLink = window.location.href;
+            const directoryPath = pageLink.substring(0, pageLink.lastIndexOf('/'));
+            const checkoutType = localStorage.getItem('checkoutType');
+
+            localStorage.removeItem('checkoutType');
+            window.location.href = `${directoryPath}/checkoutpage.html?checkoutType=${checkoutType}`;
+        });
+
+        clearAllBtn.addEventListener('click', () => {
+            if (!confirm("Are you sure you want to clear all fields?")) return;
+            streetAddressEl.value = "";
+            cityEl.value = "";
+            countryEl.value = "";
+            postalCodeEl.value = "";
+            radioCreditCardEl.checked = false;
+            radioDebitCardEl.checked = false;
+            cardNumberEl.value = "";
+            expirationDateEl.value = "";
+            securityCodeEl.value = "";
+        });
+    </script>
+</body>
+</html>

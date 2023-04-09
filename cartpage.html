@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Ecommerce Website - Cart</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 9em 10em 0 10em;
+        }
+
+        .cart-items-grid {
+            display: grid;
+            grid-template-columns: 12.4em 1fr 1fr 1fr 12em;
+            row-gap: 0.5em;
+        }
+        .grid-headers {
+            padding: 0.5em;
+            background-color: black;
+            color: white;
+            font-size: 1.5em;
+        }
+        .cart-items-grid  div {
+            border: 0.1em solid black;
+            border-left: none;
+        }
+        .item-title,
+        .item-price,
+        .item-remove-div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1em;
+            min-width: 8em;
+        }
+        .item-quantity-controller {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0 1em;
+        }
+        .item-quantity {
+            display: flex;
+            height: 2em;
+            width: 4em;
+            padding: 0.2em;
+            text-align: center;
+            margin-right: 0.5em;
+        }
+        .item-quantity-controller > button,
+        .item-remove-div > button {
+            width: 2em;
+            height: 1.5em;
+            background-color: rgb(0, 110, 255);
+            color: white;
+            border: none;
+            font-size: 1.5em;
+        }
+        .item-quantity-controller > button:hover,
+        .item-remove-div > button:hover {
+            background-color: rgb(0, 66, 153);
+        }
+        .item-quantity-controller > button:active,
+        .item-remove-div > button:active {
+            opacity: 50%;
+        }
+        .item-remove-div > button {
+            width: 100%;
+            height: 2em;
+            font-size: 1.2em;
+            padding: 0.5em;
+        }
+        .item-image-container {
+            display: flex;
+            position: relative;
+            align-items: center;
+            height: 8em;
+            overflow: hidden;
+        }
+        .item-image-container > img {
+            display: flex;
+            position: absolute;
+            width: 100%;
+            border: 0.1em solid black;
+        }
+
+        .cart-info-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            height: 15em;
+            width: 15em;
+            padding: 0 1em;
+            background-color: black;
+            color: white;
+            border-radius: 0.5em;
+        }
+        .checkout-btn {
+            height: 1.8em;
+            font-size: 1.4em;
+            background-color: transparent;
+            border: 0.1em solid rgb(0, 110, 255);
+            color: rgb(0, 110, 255);
+            transition: 0.1s;
+        }
+        .checkout-btn:hover {
+            background-color: rgb(0, 110, 255);
+            color: white;
+        }
+        .checkout-btn:active {
+            opacity: 50%;
+        }
+
+        @media only screen and (max-width: 1070px) {
+            .column-1 {
+                overflow: hidden;
+                overflow: scroll;
+                border: 0.1em solid black;
+                padding-bottom: 0.5em;
+            }
+        }
+        @media only screen and (max-width: 1655px) {
+            body {
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                flex-direction: column-reverse;
+                gap: 1em;
+                margin: 9em 0 1em 0;
+                width: 85vw;
+            }
+            .cart-info-box {
+                padding: 1em 2em;
+                width: calc(100% - 4em);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button title="Go Back" onclick="history.back();" class="back-button">
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span>
+        </button>
+        <h1 class="header-title">Your Cart</h1>
+        <a href="homepage.html" title="Home Page" class="homepage-link">
+            <span class="material-symbols-outlined">
+                home
+            </span>
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="column-1">
+            <div class="cart-items-grid"></div>
+        </div>
+        <div class="column-2">
+            <div class="cart-info-box"></div>
+        </div>
+    </div>
+    <script>
+        const cartInfoBoxEl = document.querySelector('.cart-info-box');
+        const cartItemsGridEl = document.querySelector('.cart-items-grid');
+
+        const renderHTML = () => {
+            const cartData = JSON.parse(localStorage.getItem('cart'));
+
+            // Grid Headers
+            cartItemsGridEl.innerHTML = `
+                <div class="grid-headers">Preview</div>
+                <div class="grid-headers">Title</div>
+                <div class="grid-headers">Cumulative Price</div>
+                <div class="grid-headers">Quantity</div>
+                <div
+                    class="grid-headers"
+                    style="background-color:white; border:none;">
+                </div>
+            `;
+
+            // Cart Items
+            cartItemsGridEl.innerHTML += cartData.map((product, index) => {
+                const cumulativePrice = product.price * product.quantity;
+                const hrefLink = `productpage.html?category=${product.category}&id=${product.id}`;
+                return `
+                    <a href="${hrefLink}">
+                        <div class="item-image-container">
+                            <img src="${product.image}" alt="${product.title}"/>
+                        </div>
+                    </a>
+                    <div class="item-title">${product.title}</div>
+                    <div class="item-price">$${cumulativePrice.toFixed(2)}</div>
+                    <div data-index="${index}" class="item-quantity-controller">
+                        <input disabled class="item-quantity" value=${product.quantity}>
+                        <button id="increment" onclick="changeQuantity(event)">+</button>
+                        <button id="decrement" onclick="changeQuantity(event)">-</button>
+                    </div>
+                    <div class="item-remove-div">
+                        <button onclick="removeItem(event)" data-index=${index}>Remove Item</button>
+                    </div>
+                `;
+            }).join('');
+
+            // Cart Info
+            const noOfItemsIn = cartData.length;
+            const totalPrice = noOfItemsIn === 0 ? 0 :
+                cartData.reduce((a, b) => {
+                    return a + (b.price * b.quantity)
+                }, 0);
+            cartInfoBoxEl.innerHTML = `
+                <h2>No. of Items: ${noOfItemsIn}</h2>
+                <h2>Total Price: $${totalPrice.toFixed(2)}</h2>
+                <button onclick="goToCheckout()" class="checkout-btn">Checkout</button>
+            `;
+        }
+        renderHTML();
+
+        const removeItem = (event) => {
+            const indexToRemove = parseInt(event.target.dataset.index);
+            const cartData = JSON.parse(localStorage.getItem('cart'));
+            cartData.splice(indexToRemove, 1);
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            renderHTML();
+        }
+        
+        const changeQuantity = (event) => {
+            const index = event.target.parentElement.dataset.index;
+            const actionType = event.target.id;
+            const cartData = JSON.parse(localStorage.getItem('cart'));
+
+            if (actionType === 'increment') {
+                cartData[index].quantity++;
+            } else if (actionType === 'decrement') {
+                cartData[index].quantity--;
+            }
+
+            if (cartData[index].quantity < 1) return;
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            renderHTML();
+        }
+
+        const goToCheckout = () => {
+            const cartData = JSON.parse(localStorage.getItem('cart'));
+            if (cartData.length < 1) {
+                alert("You cannot checkout if the cart is empty");
+                return;
+            }
+
+            const pageLink = window.location.href;
+            const directoryPath = pageLink.substring(0, pageLink.lastIndexOf('/'));
+            window.location.href = `${directoryPath}/checkoutpage.html?checkoutType=cart`;
+        }
+    </script>
+</body>
+</html>

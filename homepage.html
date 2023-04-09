@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="We have everything that you are looking for. Browse our categories of electronics, food and clothing. Visit us today!">
+    <title>Mock Ecommerce Website - Homepage</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cart-btn {
+            border: none;
+            display: flex;
+            position: fixed;
+            top: 1em;
+            right: 1em;
+            height: 4em;
+            width: 5em;
+            border: 0.1em solid rgb(0, 153, 255);
+            background-color: white;
+            color: rgb(0, 153, 255);
+            border-radius: 1em;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+        .cart-btn:hover {
+            background-color: rgb(0, 153, 255);
+            color: white;
+        }
+        .cart-btn:active {
+            opacity: 50%;
+        }
+        .cart-btn > span {
+            font-size: 3em;
+        }
+
+        .category-buttons {
+            display: flex;
+            margin: 15vh 3em 0 3em;
+            justify-content: center;
+            gap: 1em;
+        }
+        .category-button {
+            display: flex;
+            position: relative;
+            height: 70vh;
+            width: 30vw;
+            background-color: rgb(163, 163, 163);
+            border: 0.5em solid black;
+            border-radius: 1em;
+            overflow: hidden;
+            transition: transform 0.1s ease-in-out;
+        }
+        .category-title {
+            display: flex;
+            position: absolute;
+            top: 2em;
+            left: 0;
+            right: 0;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            height: 3em;
+            align-items: center;
+            padding-left: 1em;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .food-category {
+            background-image: url('categoryFood.avif');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        .clothing-category {
+            background-image: url('categoryClothing.avif');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        .electronics-category {
+            background-image: url('categoryElectronics.avif');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        .category-button:hover {
+            transform: scale(1.05);
+        }
+
+        @media only screen and (max-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+            }
+            .category-buttons {
+                flex-direction: column;
+                margin: 15vh 0;
+                gap: 1em;
+            }
+            .category-button {
+                width: 85vw;
+                height: 40vh;
+            }
+            .category-title {
+                top: auto;
+                bottom: 0;
+                height: 20%;
+            }
+        }
+    </style>
+</head>
+<body style="background-color: rgb(255, 255, 255);">
+    <a href="cartpage.html">
+        <button class="cart-btn">
+            <span class="material-symbols-outlined">
+                shopping_cart
+            </span>
+        </button>
+    </a>
+    
+    <div class="category-buttons">
+        <a href="categorypage.html?category=food">
+            <div class="category-button food-category">
+                <div class="category-title">Food</div>
+            </div>
+        </a>
+        <a href="categorypage.html?category=clothing">
+            <div class="category-button clothing-category">
+                <div class="category-title">Clothing</div>
+            </div>
+        </a>
+        <a href="categorypage.html?category=electronics">
+            <div class="category-button electronics-category">
+                <div class="category-title">Electronics</div>
+            </div>
+        </a>
+    </div>
+    <script>
+        // Initialize the cart storage if it doesn't exist
+        if (localStorage.getItem('cart') === null) {
+            localStorage.setItem('cart', JSON.stringify([]));
+        }
+    </script>
+</body>
+</html>
