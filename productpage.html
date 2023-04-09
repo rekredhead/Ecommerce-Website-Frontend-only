@@ -357,3 +357,362 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Ecommerce Website - </title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 9em 10em 2em 10em;
+        }
+
+        .product-data {
+            display: flex;
+            gap: 1em;
+        }
+        .product-image-container {
+            display: flex;
+            position: relative;
+            align-items: center;
+            height: 22.5em;
+            width: 35em;
+            overflow: hidden;
+            border: 0.2em solid black;
+            border-radius: 0.5em;
+        }
+        .product-image-container > img {
+            display: flex;
+            position: absolute;
+            width: 100%;
+        }
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            width: 40em;
+            gap: 0.5em;
+            background-color: black;
+            color: white;
+            border-radius: 0.5em;
+            padding: 2em 1em;
+        }
+        .product-info > div {
+            display: flex;
+            align-items: center;
+        }
+        .product-title {
+            font-size: 2.2em;
+            padding: 0.5em;
+        }
+        .product-price,
+        .product-desc {
+            padding: 0.5em 1.2em;
+            font-size: 1.2em;
+            text-align: justify;
+        }
+        .product-quantity-container {
+            padding: 0 1.5em;
+            gap: 1em;
+        }
+        .quantity-label {
+            font-size: 1.2em;
+        }
+        #quantity-input-el {
+            width: 5em;
+            text-align: center;
+            padding: 0.7em 0.3em;
+            background-color: rgb(61, 61, 61);
+            color: white;
+            border: none;
+            border-radius: 0.4em;
+        }
+
+        .interaction-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+        .interaction-buttons > button {
+            padding: 0.8em 1em;
+            border-radius: 0.5em;
+            font-size: 2em;
+            word-wrap: break-word;
+            background-color: white;
+            transition: 0.1s;
+        }
+        .add-to-cart {
+            border: 0.1em solid blue;
+            color: blue;
+        }
+        .buy-now {
+            border: 0.1em solid green;
+            color: green;
+        }
+        .add-to-cart:hover {
+            background-color: blue;
+            color: white;
+        }
+        .buy-now:hover {
+            background-color: green;
+            color: white;
+        }
+        .interaction-buttons > button:active {
+            opacity: 50%;
+        }
+
+        @media only screen and (max-width: 768px) {            
+            .product-image-container {
+                height: 50vw;
+            }
+            .product-info {
+                gap: 0;
+                font-size: 70%;
+            }
+            .product-info input {
+                height: 25%;
+            }
+            .interaction-buttons {
+                font-size: 0.6em;
+            }
+        }
+        @media only screen and (max-width: 1850px) {
+            .container {
+                flex-direction: column;
+                gap: 1em;
+            }
+            .product-image-container {
+                width: calc(100% - 0.5em);
+            }
+            .product-info {
+                width: 80vw;
+            }
+        }
+        @media only screen and (max-width: 1505px) {
+            body {
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                align-items: center;
+                width: 100vw;
+            }
+            .product-image-container {
+                height: 50vw;
+            }
+            .product-data {
+                flex-direction: column;
+                align-items: center;
+            }
+            .interaction-buttons {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button title="Go Back" onclick="history.back();" class="back-button">
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span>
+        </button>
+        <h1 class="header-title">Title</h1>
+        <a href="homepage.html" title="Home Page" class="homepage-link">
+            <span class="material-symbols-outlined">
+                home
+            </span>
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="product-data">
+            <div class="product-image-container"></div>
+            <div class="product-info">
+                <div class="product-title"></div>
+                <div class="product-price"></div>
+                <div class="product-quantity-container">
+                    <p class="quantity-label">Quantity</p>
+                    <input id="quantity-input-el" type="number" value="1" min="1"/>
+                </div>
+                <div class="product-desc"></div>
+            </div>
+        </div>
+        <div class="interaction-buttons">
+            <button class="add-to-cart">Add to Cart</button>
+            <button class="buy-now">Buy Now</button></a>
+        </div>
+    </div>
+
+    <script type="module">
+        import itemsData from "./itemsData.js";
+
+        const title = document.querySelector('title');
+        const headerTitleEl = document.querySelector('.header-title');
+        const productImageContainerEl = document.querySelector('.product-image-container');
+        const productTitleEl = document.querySelector('.product-title');
+        const productPriceEl = document.querySelector('.product-price');
+        const productDescEl = document.querySelector('.product-desc');
+        const productQuantityEl = document.getElementById('quantity-input-el');
+
+        const addToCartBtn = document.querySelector('.add-to-cart');
+        const buyNowBtn = document.querySelector('.buy-now');
+
+        const hasNumbersOnly = (value) => {
+            return /^[0-9]+$/i.test(value);
+        }
+
+        const getParameters = () => {
+            const rawParameters = window.location.search.substring(1);
+            const parameters = rawParameters.split('&');
+
+            if (parameters.length === 2) {
+                return parameters;
+            } else {
+                alert("Please select only 2 parameters");
+                return null;
+            }
+        }
+
+        const getCategoryAndProductId = () => {
+            const parameters = getParameters();
+            if (parameters === null) return null;
+
+            let categoryAndProductId = {};
+            
+            for (const parameter of parameters) {
+                const keyValueArr = parameter.split('=');
+                const key = keyValueArr[0];
+                const value = keyValueArr[1];
+                
+                if (key === 'category') {
+                    categoryAndProductId[key] = value;
+                } else if (key === 'id') {
+                    categoryAndProductId[key] = parseInt(value);
+                } else {
+                    alert("Please select valid parameters");
+                    return null;
+                }
+            }
+            return categoryAndProductId;
+        }
+
+        const getValidatedCategory = (category) => {
+            if (category in itemsData.category) {
+                return category;
+            } else {
+                alert("Please select a valid category");
+                return null;
+            }
+        }
+
+        const getValidatedProductId = (productCategory, id) => {
+            const itemsInCategory = itemsData.category[productCategory];
+            for (const item of itemsInCategory) {
+                if (id === item.id) {
+                    return id;
+                }
+            }
+
+            alert("Please select a valid product id for this category");
+            return null;
+        }
+
+        const getProductData = () => {
+            const categoryAndProductId = getCategoryAndProductId();
+            if (categoryAndProductId === null) return null;
+
+            const category = getValidatedCategory(categoryAndProductId.category);
+            if (category === null) return null;
+
+            const productId = getValidatedProductId(category, categoryAndProductId.id);
+            if (productId === null) return null;
+
+            const itemsInCategory = itemsData.category[category];
+            return itemsInCategory.filter(item => item.id === productId)[0];
+        }
+
+        const renderHTML = () => {
+            const productData = getProductData();
+            if (productData === null) {
+                history.back();
+                return;
+            }
+
+            headerTitleEl.innerHTML = productData.title;
+            title.innerHTML += productData.title;
+            productImageContainerEl.innerHTML = `<img src="${productData.image}" alt="${productData.title}"/>`;
+            productTitleEl.innerHTML = productData.title;
+            productPriceEl.innerHTML = `Price: $${productData.price}`;
+            productDescEl.innerHTML = `Description<br/>${productData.description}`;
+        }
+        renderHTML();
+
+        const getProductDataForPurchase = () => {
+            const productData = getProductData();
+            if (productData === null) {
+                history.back();
+                return null;
+            }
+
+            const categoryAndProductId = getCategoryAndProductId();
+            const category = categoryAndProductId.category;
+            const id = categoryAndProductId.id;
+            const quantity = productQuantityEl.value.replaceAll(" ", "");
+
+            // Validate the quantity
+            if (quantity === "") {
+                alert("Please enter a quantity");
+                return null;
+            } else if (!hasNumbersOnly(quantity)) {
+                alert("Please enter only numbers for the quantity");
+                return null;
+            }
+
+            const productObject = {
+                id,
+                category,
+                title: productData.title,
+                image: productData.image,
+                price: productData.price,
+                quantity
+            }
+
+            return productObject;
+        }
+
+        addToCartBtn.addEventListener('click', () => {
+            const productObject = getProductDataForPurchase();
+            if (productObject === null) return;
+
+            let productsInCart = JSON.parse(localStorage.getItem('cart'));
+
+            const isProductAlreadyInCart = (productsInCart.filter(product => product.id === productObject.id)).length > 0;
+            if (isProductAlreadyInCart) {
+                alert("Product is already in Cart");
+                return;
+            }
+            
+            productsInCart.push(productObject);
+            localStorage.setItem('cart', JSON.stringify(productsInCart));
+            alert(`Added ${productObject.title} to Cart`);
+        });
+
+        buyNowBtn.addEventListener('click', () => {
+            const productObject = getProductDataForPurchase();
+            if (productObject === null) return;
+
+            localStorage.setItem('product', JSON.stringify([productObject]));
+
+            const pageLink = window.location.href;
+            const directoryPath = pageLink.substring(0, pageLink.lastIndexOf('/'));
+            window.location.href = directoryPath + '/checkoutpage.html?checkoutType=product';
+        });
+    </script>
+</body>
+</html>
