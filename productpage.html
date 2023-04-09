@@ -186,7 +186,7 @@
         </div>
         <div class="interaction-buttons">
             <button class="add-to-cart">Add to Cart</button>
-            <button class="buy-now">Buy Now</button>
+            <button class="buy-now">Buy Now</button></a>
         </div>
     </div>
 
@@ -350,8 +350,9 @@
 
             localStorage.setItem('product', JSON.stringify([productObject]));
 
-            const domain = window.location.origin;
-            window.location.href = `${domain}/checkoutpage.html?checkoutType=product`;
+            const pageLink = window.location.href;
+            const directoryPath = pageLink.substring(0, pageLink.lastIndexOf('/'));
+            window.location.href = directoryPath + '/checkoutpage.html?checkoutType=product';
         });
     </script>
 </body>

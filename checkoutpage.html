@@ -298,7 +298,8 @@
         const shippingInfoEl = document.querySelector('.shipping-info');
         const paymentInfoEl = document.querySelector('.payment-info');
         const editOrderedItemsBtn = document.getElementById('edit-ordered-items-btn');
-        const domain = window.location.origin;
+        const pageLink = window.location.href;
+        const directoryPath = pageLink.substring(0, pageLink.lastIndexOf('/'));
 
         const isAddressAndPaymentMethodAvailable = () => {
             const paymentDetailsNotAvailable = localStorage.getItem('paymentDetails') === null;
@@ -399,7 +400,7 @@
 
             if (!isAddressAndPaymentMethodAvailable()) {
                 localStorage.setItem('checkoutType', checkoutType);
-                window.location.href = `${domain}/customerinformationpage.html`;
+                window.location.href = `${directoryPath}/customerinformationpage.html`;
                 return;
             }
 
@@ -424,10 +425,10 @@
             }
 
             if (checkoutType === 'cart') {
-                window.location.href = `${domain}/cartpage.html`;
+                window.location.href = `${directoryPath}/cartpage.html`;
             } else if (checkoutType === 'product') {
                 const { id, category} = JSON.parse(localStorage.getItem(checkoutType))[0];
-                window.location.href = `${domain}/productpage.html?category=${category}&id=${id}`;
+                window.location.href = `${directoryPath}/productpage.html?category=${category}&id=${id}`;
             }
         });
 
@@ -439,7 +440,7 @@
             }
 
             localStorage.setItem('checkoutType', checkoutType);
-            window.location.href = `${domain}/customerinformationpage.html`;
+            window.location.href = `${directoryPath}/customerinformationpage.html`;
         };
 
         const placeOrder = () => {
@@ -450,7 +451,7 @@
             localStorage.removeItem('shippingAddress');
             localStorage.removeItem('paymentDetails');
 
-            window.location.href = `${domain}/thankyouforpurchasepage.html`;
+            window.location.href = `${directoryPath}/thankyouforpurchasepage.html`;
         }
     </script>
 </body>

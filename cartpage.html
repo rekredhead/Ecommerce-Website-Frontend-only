@@ -253,8 +253,9 @@
                 return;
             }
 
-            const domain = window.location.origin;
-            window.location.href = `${domain}/checkoutpage.html?checkoutType=cart`;
+            const pageLink = window.location.href;
+            const directoryPath = pageLink.substring(0, pageLink.lastIndexOf('/'));
+            window.location.href = `${directoryPath}/checkoutpage.html?checkoutType=cart`;
         }
     </script>
 </body>

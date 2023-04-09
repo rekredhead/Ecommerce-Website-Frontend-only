@@ -352,11 +352,12 @@
             localStorage.setItem('paymentDetails', JSON.stringify(paymentDetails));
 
             // Set the correct parameter when redirecting user to the checkoutpage
-            const domain = window.location.origin;
+            const pageLink = window.location.href;
+            const directoryPath = pageLink.substring(0, pageLink.lastIndexOf('/'));
             const checkoutType = localStorage.getItem('checkoutType');
 
             localStorage.removeItem('checkoutType');
-            window.location.href = `${domain}/checkoutpage.html?checkoutType=${checkoutType}`;
+            window.location.href = `${directoryPath}/checkoutpage.html?checkoutType=${checkoutType}`;
         });
 
         clearAllBtn.addEventListener('click', () => {
